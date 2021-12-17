@@ -11,3 +11,6 @@ C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\B
 C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\bin\Debug\netcoreapp3.1\DAL.dll
 C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\bin\Debug\netcoreapp3.1\DAL.pdb
 C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.csproj.CopyComplete
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\bin\Debug\netcoreapp3.1\BL.runtimeconfig.json
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\bin\Debug\netcoreapp3.1\BL.runtimeconfig.dev.json
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.genruntimeconfig.cache
