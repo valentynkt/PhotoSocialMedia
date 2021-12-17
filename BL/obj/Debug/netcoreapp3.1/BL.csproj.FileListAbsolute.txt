@@ -1,0 +1,13 @@
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\bin\Debug\netcoreapp3.1\BL.deps.json
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\bin\Debug\netcoreapp3.1\BL.dll
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\bin\Debug\netcoreapp3.1\BL.pdb
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.csproj.AssemblyReference.cache
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.AssemblyInfoInputs.cache
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.AssemblyInfo.cs
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.csproj.CoreCompileInputs.cache
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.dll
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.pdb
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\bin\Debug\netcoreapp3.1\DAL.dll
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\bin\Debug\netcoreapp3.1\DAL.pdb
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\BL\obj\Debug\netcoreapp3.1\BL.csproj.CopyComplete
