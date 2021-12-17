@@ -14,5 +14,6 @@ namespace DAL.Entities
         public int PersonId { get; set; }
         public ClientProfile PublishedBy { get; set; }
         public DateTime PublishedTime { get; set; }
+      //  public ICollection<Comment> Comments { get; set; }
     }
 }
