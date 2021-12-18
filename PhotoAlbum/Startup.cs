@@ -11,10 +11,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BL;
+using BL.Interfaces;
+using BL.Services;
 using DAL;
 using DAL.Entities.Auth;
+using DAL.Interfaces;
+using DAL.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace PhotoAlbum
 {
@@ -36,7 +41,15 @@ namespace PhotoAlbum
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<ICommentService, CommentService>();
+
             services.AddAutoMapper(typeof(AutomapperProfile));
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +69,11 @@ namespace PhotoAlbum
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V2");
             });
         }
     }
