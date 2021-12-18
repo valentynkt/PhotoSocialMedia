@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BL;
 using DAL;
 using DAL.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
@@ -33,7 +34,9 @@ namespace PhotoAlbum
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Library")));
             services.AddIdentity<AppUser, AppRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
+            services.AddAutoMapper(typeof(AutomapperProfile));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
