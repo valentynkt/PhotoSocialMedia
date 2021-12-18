@@ -140,3 +140,5 @@ C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PL\obj\Debug\netcoreapp3.1\P
 C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PL\obj\Debug\netcoreapp3.1\PL.dll
 C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PL\obj\Debug\netcoreapp3.1\PL.pdb
 C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PL\obj\Debug\netcoreapp3.1\PL.genruntimeconfig.cache
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PhotoAlbum\bin\Debug\netcoreapp3.1\AutoMapper.dll
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PhotoAlbum\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

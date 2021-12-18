@@ -45,6 +45,10 @@ namespace DAL.Repositories
                 _context.Images.Remove(entity);
             }
         }
+        public async Task<IEnumerable<Image>> FindByConditionAsync(Expression<Func<Image, bool>> expression)
+        {
+            return await _context.Images.Where(expression).AsNoTracking().ToListAsync();
+        }
 
         public async Task DeleteByIdAsync(int id)
         {
