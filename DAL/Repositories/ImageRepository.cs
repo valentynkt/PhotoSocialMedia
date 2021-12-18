@@ -28,11 +28,6 @@ namespace DAL.Repositories
             return await _context.Images.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Image>> FindByConditionAsync(Expression<Func<Image, bool>> expression)
-        {
-            return await _context.Images.Where(expression).AsNoTracking().ToListAsync();
-        }
-
         public async Task AddAsync(Image entity)
         {
             await _context.Images.AddAsync(entity);

@@ -9,7 +9,7 @@ namespace BL.DTO
         public int Id { get; set; }
         public string ImageTitle { get; set; }
         public byte[] ImageData { get; set; }
-        public int PersonId { get; set; }
+        public int? PersonId { get; set; }
         public DateTime PublishedTime { get; set; }
     }
 }

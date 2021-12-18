@@ -26,7 +26,7 @@ namespace BL.Services
 
         public async Task<bool> SignUp(UserDTO userDto)
         {
-            var user = _mapper.Map<UserDTO, AppUser>(userDto);
+            var user = _mapper.Map<AppUser>(userDto);
             var userCreateResult = await _userManager.CreateAsync(user, userDto.Password);
             if (userCreateResult.Succeeded)
             {
