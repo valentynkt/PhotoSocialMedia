@@ -36,7 +36,7 @@ namespace BL.Services
             throw new UserException(userCreateResult.Errors.First().Description);
         }
 
-        public async Task<bool> SignIn(UserDTO userDto)
+        public async Task<bool> SignIn(UserLoginResource userDto)
         {
             var user = _userManager.Users.SingleOrDefault(u => u.UserName == userDto.Email);
             if (user is null)

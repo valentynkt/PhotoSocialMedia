@@ -38,7 +38,8 @@ namespace PhotoAlbum
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Library")));
-            services.AddIdentity<AppUser, AppRole>()
+            services.AddIdentity<AppUser, AppRole>(opts => 
+                    opts.Password.RequireNonAlphanumeric=false)
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
             services.AddScoped<IImageRepository, ImageRepository>();
@@ -47,7 +48,7 @@ namespace PhotoAlbum
 
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<ICommentService, CommentService>();
-
+            services.AddScoped<UserService>();
             services.AddAutoMapper(typeof(AutomapperProfile));
             services.AddSwaggerGen();
         }

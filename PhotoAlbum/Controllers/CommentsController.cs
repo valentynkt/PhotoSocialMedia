@@ -21,10 +21,10 @@ namespace PL.Controllers
             _commentService = commentService;
         }
 
-        [HttpGet]
+/*        [HttpGet]
         public ActionResult<IEnumerable<CommentDTO>> GetAll()
         {
 
-        }
+        }*/
     }
 }
