@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using BL.DTO;
 using BL.Exceptions;
+using BL.Settings;
 using DAL.Entities.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BL.Services
 {
@@ -16,12 +22,14 @@ namespace BL.Services
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
+        private readonly JwtSettings _jwtSettings;
 
-        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings)
         {
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
+            _jwtSettings = jwtSettings.Value;
         }
 
         public async Task<bool> SignUp(UserDTO userDto)
@@ -38,7 +46,7 @@ namespace BL.Services
 
         public async Task<bool> SignIn(UserLoginResource userDto)
         {
-            var user = _userManager.Users.SingleOrDefault(u => u.UserName == userDto.Email);
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userDto.Email);
             if (user is null)
             {
                 throw new UserException("User not found");
@@ -53,6 +61,68 @@ namespace BL.Services
 
             throw new UserException("Email or password incorrect.");
         }
+
+        public async Task UpdateUser(UserDTO newUserDto)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == newUserDto.Email);
+            if (user is null)
+            {
+                throw new UserException("User not found");
+            }
+
+            if (newUserDto.FirstName!=null)
+            {
+                user.ClientProfile.FirstName = newUserDto.FirstName;
+            }
+            if (newUserDto.SecondName != null)
+            {
+                user.ClientProfile.SecondName = newUserDto.SecondName;
+            }
+
+            await _userManager.UpdateAsync(user);
+        }
+
+        public async Task DeleteUserByEmail(string email)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == email);
+            if (user is null)
+            {
+                throw new UserException("User not found");
+            }
+
+            await _userManager.DeleteAsync(user);
+        }
+
+        public async Task<IEnumerable<UserDTO>> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var userListDto = _mapper.Map<IEnumerable<UserDTO>>(users);
+            return userListDto;
+        }
+
+        public async Task<UserDTO> GetUserByEmail(string email)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == email);
+            if (user is null)
+            {
+                throw new UserException("User not found");
+            }
+
+            var userDto = _mapper.Map<UserDTO>(user);
+            return userDto;
+        }
+
+/*        public async Task<UserDTO> GetCurrentUser()
+        {
+            var user = await _userManager.FindByEmailAsync(Context)
+            if (user is null)
+            {
+                throw new UserException("User not found");
+            }
+
+            var userDto = _mapper.Map<UserDTO>(user);
+            return userDto;
+        }*/
 
         public async Task<bool> CreateRole(string roleName)
         {
@@ -92,6 +162,34 @@ namespace BL.Services
             }
 
             throw new RoleException(result.Errors.First().Description);
+        }
+
+        private string GenerateJwt(AppUser user, IList<string> roles)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+
+            var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r));
+            claims.AddRange(roleClaims);
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_jwtSettings.ExpirationInDays));
+
+            var token = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Issuer,
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }
