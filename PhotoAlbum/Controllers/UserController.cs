@@ -48,8 +48,8 @@ namespace PL.Controllers
             }
         }
 
-        [HttpGet("byemail/{email}")]
-        public async Task<UserDTO> GetUserByEmail(string email)
+        [HttpGet("byemail")]
+        public async Task<UserDTO> GetUserByEmail([FromBody]string email)
         {
             try
             {
@@ -76,9 +76,39 @@ namespace PL.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUserById(int id)
+        {
+            try
+            {
+                await _userService.DeleteUserById(id);
+                return new EmptyResult();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpDelete("byemail")]
+        public async Task<IActionResult> DeleteUserByEmail([FromBody]string email)
+        {
+            try
+            {
+                await _userService.DeleteUserByEmail(email);
+                return new EmptyResult();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp(UserDTO userDto)
         {
@@ -106,7 +136,21 @@ namespace PL.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPost("roles")]
+        [HttpPost("signout")]
+        public async Task<IActionResult> SignOut()
+        {
+            try
+            {
+                await _userService.SignOut();
+                var checkAuth = _httpContext.User.Identity.IsAuthenticated;
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPost("roles/{roleName}")]
         public async Task<IActionResult> CreateRole(string roleName)
         {
             try
@@ -119,8 +163,8 @@ namespace PL.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPost("User/{userEmail}/Role")]
-        public async Task<IActionResult> AddUserToRole(string userEmail, [FromBody] string roleName)
+        [HttpPost("addRole/{roleName}")]
+        public async Task<IActionResult> AddUserToRole([FromBody] string userEmail, string roleName)
         {
             try
             {
@@ -130,6 +174,45 @@ namespace PL.Controllers
             catch (Exception e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("roles")]
+        public async Task<IActionResult> GetUserRole([FromBody]string email)
+        {
+            try
+            {
+                await _userService.GetUserRoles(email);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("images")]
+        public async Task<IEnumerable<ImageDTO>> GetUserImages([FromBody] string email)
+        {
+            try
+            {
+                return await _userService.GetUserImages(email);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        [HttpGet("comments")]
+        public async Task<IEnumerable<CommentDTO>> GetUserComments([FromBody] string email)
+        {
+            try
+            {
+                return await _userService.GetUserComments(email);
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
     }

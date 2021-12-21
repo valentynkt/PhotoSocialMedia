@@ -21,10 +21,72 @@ namespace PL.Controllers
             _commentService = commentService;
         }
 
-/*        [HttpGet]
-        public ActionResult<IEnumerable<CommentDTO>> GetAll()
+        [HttpGet]
+        public async Task<IEnumerable<CommentDTO>> GetAll()
         {
+            return await _commentService.GetAllAsync();
+        }
 
-        }*/
+        [HttpGet("{id}")]
+        public async Task<CommentDTO> GetById(int id)
+        {
+            return await _commentService.GetByIdAsync(id);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(CommentDTO commentDto)
+        {
+            if (commentDto == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await _commentService.Update(commentDto);
+                return new EmptyResult();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _commentService.DeleteByIdAsync(id);
+                return new EmptyResult();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(CommentDTO commentDto)
+        {
+            if (commentDto==null)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                await _commentService.AddAsync(commentDto);
+                return CreatedAtAction(nameof(Add), new {id = commentDto.Id}, commentDto);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        /*        [HttpGet]
+                public ActionResult<IEnumerable<CommentDTO>> GetAll()
+                {
+
+                }*/
     }
 }

@@ -28,11 +28,63 @@ namespace PL.Controllers
             _httpContext = httpContextAccessor.HttpContext;
             _userService = userService;
         }
-        /*        [HttpGet]
-                public ActionResult<IEnumerable<ImageDTO>> GetAll()
-                {
+        [HttpGet]
+        public async Task<IEnumerable<ImageDTO>> GetAll()
+        {
+            return await _imageService.GetAllAsync();
+        }
 
-                }*/
+        [HttpGet("{id}")]
+        public async Task<ImageDTO> GetById(int id)
+        {
+            return await _imageService.GetByIdAsync(id);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(ImageDTO imageDto)
+        {
+            if (imageDto == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await _imageService.Update(imageDto);
+                return new EmptyResult();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _imageService.DeleteByIdAsync(id);
+                return new EmptyResult();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+/*
+        [HttpGet("{id}/comments")]
+        public async Task<IEnumerable<CommentDTO>> GetImageComments(int id)
+        {
+            try
+            {
+                await _imageService
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }*/
         [HttpPost]
         public async Task<IActionResult> Upload(IFormFile file)
         {
@@ -53,7 +105,6 @@ namespace PL.Controllers
                     var checkAuth = _httpContext.User.Identity.IsAuthenticated;
                     var userEmail = _httpContext.User.FindFirst(ClaimTypes.Name).Value;
                     var user =await _userService.GetUserByEmail(userEmail);
-
                     imageDto.PersonId = user.Id;
                     await _imageService.AddAsync(imageDto);
                     return CreatedAtAction(nameof(Upload), new { id = imageDto.Id }, imageDto);
@@ -66,5 +117,6 @@ namespace PL.Controllers
                 return BadRequest(e.Message);
             }
         }
+
     }
 }

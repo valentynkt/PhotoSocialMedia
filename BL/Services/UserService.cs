@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BL.DTO;
 using BL.Exceptions;
+using BL.Interfaces;
 using BL.Settings;
 using DAL.Entities.Auth;
+using DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -24,13 +26,15 @@ namespace BL.Services
         private readonly IMapper _mapper;
         private readonly JwtSettings _jwtSettings;
         private readonly SignInManager<AppUser> _signInManager;
-        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager)
+        private readonly IUnitOfWork _unitOfWork;
+        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager,IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _jwtSettings = jwtSettings.Value;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<bool> SignUp(UserDTO userDto)
@@ -68,6 +72,11 @@ namespace BL.Services
             throw new UserException("Email or password incorrect.");
         }
 
+        public async Task SignOut()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
         public async Task UpdateUser(UserDTO newUserDto)
         {
             var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == newUserDto.Email);
@@ -86,6 +95,17 @@ namespace BL.Services
             }
 
             await _userManager.UpdateAsync(user);
+        }
+
+        public async Task DeleteUserById(int id)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id == id);
+            if (user is null)
+            {
+                throw new UserException("User not found");
+            }
+
+            await _userManager.DeleteAsync(user);
         }
 
         public async Task DeleteUserByEmail(string email)
@@ -128,17 +148,6 @@ namespace BL.Services
             var userDto = _mapper.Map<UserDTO>(user);
             return userDto;
         }
-        /*        public async Task<UserDTO> GetCurrentUser()
-                {
-                    var user = await _userManager.FindByEmailAsync(Context)
-                    if (user is null)
-                    {
-                        throw new UserException("User not found");
-                    }
-
-                    var userDto = _mapper.Map<UserDTO>(user);
-                    return userDto;
-                }*/
 
         public async Task<bool> CreateRole(string roleName)
         {
@@ -180,9 +189,9 @@ namespace BL.Services
             throw new RoleException(result.Errors.First().Description);
         }
 
-        public async Task<IEnumerable<string>> GetUserRoles(UserDTO userDto)
+        public async Task<IEnumerable<string>> GetUserRoles(string email)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userDto.Email);
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == email);
             if (user is null)
             {
                 throw new UserException("User not found");
@@ -191,6 +200,30 @@ namespace BL.Services
             return roles;
         }
 
+        public async Task<IEnumerable<ImageDTO>> GetUserImages(string email)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == email);
+            if (user is null)
+            {
+                throw new UserException("User not found");
+            }
+
+            var images = await _unitOfWork.ImageRepository.FindByConditionAsync(x => x.PersonId==user.Id);
+            var userImagesDTO = _mapper.Map<IEnumerable<ImageDTO>>(images);
+            return userImagesDTO;
+        }
+        public async Task<IEnumerable<CommentDTO>> GetUserComments(string email)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == email);
+            if (user is null)
+            {
+                throw new UserException("User not found");
+            }
+
+            var comments = await _unitOfWork.CommentRepository.FindByConditionAsync(x=> x.PersonId==user.Id);
+            var userCommentsDTO = _mapper.Map<IEnumerable<CommentDTO>>(comments);
+            return userCommentsDTO;
+        }
         public string GenerateJwt(AppUser user, IList<string> roles)
         {
             var claims = new List<Claim>

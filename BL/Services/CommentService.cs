@@ -49,6 +49,7 @@ namespace BL.Services
             {
                 throw new PhotoAlbumException("Wrong comment data");
             }
+            entity.CommentedOn=DateTime.Now;
             var elem = _mapper.Map<Comment>(entity);
             await _unitOfWork.CommentRepository.AddAsync(elem);
             entity.Id = elem.Id;

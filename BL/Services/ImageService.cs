@@ -73,5 +73,19 @@ namespace BL.Services
             await _unitOfWork.ImageRepository.DeleteByIdAsync(id);
             await _unitOfWork.SaveAsync();
         }
+
+        public async Task<IEnumerable<CommentDTO>> GetImageComments(int id)
+        {
+            var imageById = await _unitOfWork.ImageRepository.GetByIdWithDetailsAsync(id);
+            if (imageById == null)
+            {
+                throw new PhotoAlbumException(@"There are no book with this id: {id}");
+            }
+
+            var comments =await _unitOfWork.CommentRepository.FindByConditionAsync(x => x.ImageId == imageById.Id);
+            var commentsDto = _mapper.Map<IEnumerable<CommentDTO>>(comments);
+            return commentsDto;
+        }
+
     }
 }
