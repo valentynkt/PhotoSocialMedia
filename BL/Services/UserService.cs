@@ -23,12 +23,13 @@ namespace BL.Services
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly JwtSettings _jwtSettings;
-
-        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings)
+        private readonly SignInManager<AppUser> _signInManager;
+        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager)
         {
             _mapper = mapper;
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
             _jwtSettings = jwtSettings.Value;
         }
 
@@ -38,6 +39,7 @@ namespace BL.Services
             var userCreateResult = await _userManager.CreateAsync(user, userDto.Password);
             if (userCreateResult.Succeeded)
             {
+                await _signInManager.SignInAsync(user, false);
                 return true;
             }
 
@@ -52,11 +54,15 @@ namespace BL.Services
                 throw new UserException("User not found");
             }
 
-            var userSigninResult = await _userManager.CheckPasswordAsync(user, userDto.Password);
-
-            if (userSigninResult)
+            var userResult = await _userManager.CheckPasswordAsync(user, userDto.Password);
+            var userSigninResult = await _signInManager.PasswordSignInAsync(user.UserName, userDto.Password, userDto.RememberMe, false);
+            
+            if (userSigninResult.Succeeded)
             {
-                return true;
+                var checkAuth = _signInManager.Context.User.Identity.IsAuthenticated;
+                var roles = await _userManager.GetRolesAsync(user);
+               // return GenerateJwt(user, roles);
+               return true;
             }
 
             throw new UserException("Email or password incorrect.");
@@ -111,10 +117,9 @@ namespace BL.Services
             var userDto = _mapper.Map<UserDTO>(user);
             return userDto;
         }
-
-/*        public async Task<UserDTO> GetCurrentUser()
+        public async Task<UserDTO> GetUserById(int id)
         {
-            var user = await _userManager.FindByEmailAsync(Context)
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id==id);
             if (user is null)
             {
                 throw new UserException("User not found");
@@ -122,7 +127,18 @@ namespace BL.Services
 
             var userDto = _mapper.Map<UserDTO>(user);
             return userDto;
-        }*/
+        }
+        /*        public async Task<UserDTO> GetCurrentUser()
+                {
+                    var user = await _userManager.FindByEmailAsync(Context)
+                    if (user is null)
+                    {
+                        throw new UserException("User not found");
+                    }
+
+                    var userDto = _mapper.Map<UserDTO>(user);
+                    return userDto;
+                }*/
 
         public async Task<bool> CreateRole(string roleName)
         {
@@ -164,7 +180,18 @@ namespace BL.Services
             throw new RoleException(result.Errors.First().Description);
         }
 
-        private string GenerateJwt(AppUser user, IList<string> roles)
+        public async Task<IEnumerable<string>> GetUserRoles(UserDTO userDto)
+        {
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userDto.Email);
+            if (user is null)
+            {
+                throw new UserException("User not found");
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles;
+        }
+
+        public string GenerateJwt(AppUser user, IList<string> roles)
         {
             var claims = new List<Claim>
             {

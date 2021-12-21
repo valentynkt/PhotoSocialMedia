@@ -147,3 +147,4 @@ C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PhotoAlbum\bin\Debug\netcore
 C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PhotoAlbum\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PhotoAlbum\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PhotoAlbum\obj\Debug\netcoreapp3.1\PL.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Valentyn\source\repos\FinalTask\PhotoAlbum\PhotoAlbum\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll

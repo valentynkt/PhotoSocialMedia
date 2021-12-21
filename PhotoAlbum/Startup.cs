@@ -21,6 +21,7 @@ using DAL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PL.Extensions;
 
 
 namespace PhotoAlbum
@@ -37,18 +38,28 @@ namespace PhotoAlbum
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Library")));
 
-            services.AddIdentity<AppUser, AppRole>(opts => 
-                    opts.Password.RequireNonAlphanumeric=false)
+            services.AddIdentity<AppUser, AppRole>(opts =>
+                    {
+                        opts.SignIn.RequireConfirmedAccount = false;
+                        opts.SignIn.RequireConfirmedEmail = false;
+                        opts.SignIn.RequireConfirmedPhoneNumber = false;
+                        opts.Password.RequireNonAlphanumeric = false;
+                    })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
-           // services.Add<HttpContextAccessor>();
+            services.AddHttpContextAccessor();
 
-            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
+            //services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
+
+            //services.AddAuth(jwtSettings);
+
 
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
@@ -75,6 +86,8 @@ namespace PhotoAlbum
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseAuth();
 
             app.UseEndpoints(endpoints =>
             {

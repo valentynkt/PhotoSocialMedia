@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BL.DTO;
 using BL.Interfaces;
@@ -17,11 +18,15 @@ namespace PL.Controllers
     public class ImagesController : ControllerBase
     {
         private readonly IImageService _imageService;
-        private readonly UserService _userService;
+        private readonly HttpContext _httpContext;
+        public readonly UserService _userService;
+       // private readonly string _currentUserEmail;
 
-        public ImagesController(IImageService imageService, UserService userService)
+        public ImagesController(IImageService imageService,UserService userService,IHttpContextAccessor httpContextAccessor)
         {
             _imageService = imageService;
+            _httpContext = httpContextAccessor.HttpContext;
+            _userService = userService;
         }
         /*        [HttpGet]
                 public ActionResult<IEnumerable<ImageDTO>> GetAll()
@@ -35,7 +40,7 @@ namespace PL.Controllers
             {
                 if (file != null)
                 {
-                    ImageDTO imageDto = new ImageDTO() { ImageTitle = file.FileName };
+                    ImageDTO imageDto = new ImageDTO() { ImageTitle = file.FileName,PublishedTime = DateTime.Now};
                     byte[] imageData = null;
                     // считываем переданный файл в массив байтов
                     using (var binaryReader = new BinaryReader(file.OpenReadStream()))
@@ -45,7 +50,11 @@ namespace PL.Controllers
                     // установка массива байтов
                     imageDto.ImageData = imageData;
                     //var user = await _userService.GetUserAsync(HttpContext.User);
+                    var checkAuth = _httpContext.User.Identity.IsAuthenticated;
+                    var userEmail = _httpContext.User.FindFirst(ClaimTypes.Name).Value;
+                    var user =await _userService.GetUserByEmail(userEmail);
 
+                    imageDto.PersonId = user.Id;
                     await _imageService.AddAsync(imageDto);
                     return CreatedAtAction(nameof(Upload), new { id = imageDto.Id }, imageDto);
                 }

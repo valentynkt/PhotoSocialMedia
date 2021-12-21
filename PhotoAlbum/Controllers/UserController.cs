@@ -16,12 +16,69 @@ namespace PL.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
-
-        public UserController(UserService userService)
+        private readonly HttpContext _httpContext;
+        public UserController(UserService userService, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
+            _httpContext = httpContextAccessor.HttpContext;
         }
 
+        [HttpGet]
+        public async Task<IEnumerable<UserDTO>> GetAllUsers()
+        {
+            try
+            {
+                return await _userService.GetAllUsers();
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+        [HttpGet("{id}")]
+        public async Task<UserDTO> GetUserById(int id)
+        {
+            try
+            {
+                return await _userService.GetUserById(id);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        [HttpGet("byemail/{email}")]
+        public async Task<UserDTO> GetUserByEmail(string email)
+        {
+            try
+            {
+                return await _userService.GetUserByEmail(email);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(UserDTO userDto)
+        {
+            if (userDto == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await _userService.UpdateUser(userDto);
+                return new EmptyResult();
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp(UserDTO userDto)
         {
@@ -40,8 +97,9 @@ namespace PL.Controllers
         {
             try
             {
-                await _userService.SignIn(userDto);
-                return Ok();
+                var jwtString=await _userService.SignIn(userDto);
+                var checkAuth = _httpContext.User.Identity.IsAuthenticated;
+                return Ok(jwtString);
             }
             catch (Exception e)
             {

@@ -46,7 +46,7 @@ namespace BL.Services
 
         public async Task AddAsync(ImageDTO entity)
         {
-            if ( entity.ImageData is null || entity.PublishedTime == default||string.IsNullOrEmpty(entity.ImageTitle))
+            if (entity.PersonId is null || entity.ImageData is null || entity.PublishedTime == default||string.IsNullOrEmpty(entity.ImageTitle))
             {
                 throw new PhotoAlbumException("Wrong image data");
             }
