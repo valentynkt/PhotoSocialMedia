@@ -72,13 +72,13 @@ namespace PL.Controllers
                 return BadRequest(e.Message);
             }
         }
-/*
-        [HttpGet("{id}/comments")]
+
+/*        [HttpGet("{id}/comments")]
         public async Task<IEnumerable<CommentDTO>> GetImageComments(int id)
         {
             try
             {
-                await _imageService
+                await _imageService.
             }
             catch (Exception e)
             {

@@ -49,7 +49,6 @@ namespace BL.Services
             {
                 throw new PhotoAlbumException("Wrong comment data");
             }
-            entity.CommentedOn=DateTime.Now;
             var elem = _mapper.Map<Comment>(entity);
             await _unitOfWork.CommentRepository.AddAsync(elem);
             entity.Id = elem.Id;
@@ -58,7 +57,7 @@ namespace BL.Services
 
         public async Task Update(CommentDTO entity)
         {
-            if (entity.PersonId is null || entity.ImageId is null || entity.CommentedOn == default || entity.CommentedOn > DateTime.Now)
+            if (string.IsNullOrEmpty(entity.Text))
             {
                 throw new PhotoAlbumException("Wrong comment data");
             }

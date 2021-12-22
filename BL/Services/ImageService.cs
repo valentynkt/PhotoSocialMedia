@@ -27,6 +27,7 @@ namespace BL.Services
 
         public async Task<IEnumerable<ImageDTO>> GetAllAsync()
         {
+
             var images =await _unitOfWork.ImageRepository.GetAllWithDetailsAsync();
             var imagesModel = _mapper.Map<IEnumerable<ImageDTO>>(images);
             return imagesModel;

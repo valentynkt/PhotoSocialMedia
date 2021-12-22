@@ -60,6 +60,8 @@ namespace PhotoAlbum
 
             //services.AddAuth(jwtSettings);
 
+            services.AddCors();
+
 
             services.AddScoped<IImageRepository, ImageRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
@@ -83,6 +85,8 @@ namespace PhotoAlbum
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(builder => builder.AllowAnyOrigin());
 
             app.UseAuthentication();
             app.UseAuthorization();

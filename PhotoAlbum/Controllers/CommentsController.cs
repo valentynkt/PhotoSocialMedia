@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BL.DTO;
 using BL.Interfaces;
+using BL.Services;
 
 namespace PL.Controllers
 {
@@ -15,10 +17,14 @@ namespace PL.Controllers
     public class CommentsController : ControllerBase
     {
         private readonly ICommentService _commentService;
+        private readonly HttpContext _httpContext;
+        public readonly UserService _userService;
 
-        public CommentsController(ICommentService commentService)
+        public CommentsController(ICommentService commentService,UserService userService, IHttpContextAccessor httpContextAccessor)
         {
             _commentService = commentService;
+            _httpContext = httpContextAccessor.HttpContext;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -75,6 +81,11 @@ namespace PL.Controllers
             }
             try
             {
+                commentDto.CommentedOn=DateTime.Now;
+                var checkAuth = _httpContext.User.Identity.IsAuthenticated;
+                var userEmail = _httpContext.User.FindFirst(ClaimTypes.Name).Value;
+                var user = await _userService.GetUserByEmail(userEmail);
+                commentDto.PersonId = user.Id;
                 await _commentService.AddAsync(commentDto);
                 return CreatedAtAction(nameof(Add), new {id = commentDto.Id}, commentDto);
             }
