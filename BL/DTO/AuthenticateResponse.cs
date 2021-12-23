@@ -9,6 +9,8 @@ namespace BL.DTO
     {
         public int Id { get; set; }
         public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
         public string Role { get; set; }
         public string Token { get; set; }
 
@@ -17,6 +19,8 @@ namespace BL.DTO
         {
             Id = user.Id;
             Email = user.Email;
+            FirstName = user.ClientProfile.FirstName;
+            SecondName = user.ClientProfile.SecondName;
             Role = role;
             Token = token;
         }

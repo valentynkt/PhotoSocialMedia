@@ -20,6 +20,19 @@ namespace DAL
         protected override void OnModelCreating(ModelBuilder builder)
        {
            base.OnModelCreating(builder);
-       }
+           builder.Entity<AppRole>()
+               .HasData(
+                   new AppRole()
+                   {
+                       Id = 1,
+                       Name = "user",
+                   },
+                   new AppRole
+                   {
+                       Id = 2,
+                       Name = "admin"
+                   }
+               );
+        }
     }
 }

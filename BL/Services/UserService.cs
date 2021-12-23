@@ -41,8 +41,10 @@ namespace BL.Services
         {
             var user = _mapper.Map<AppUser>(userDto);
             var userCreateResult = await _userManager.CreateAsync(user, userDto.Password);
+            userDto.Id = user.Id;
             if (userCreateResult.Succeeded)
             {
+                await AddUserToRole(user.Email,"user");
                 return true;
             }
 
