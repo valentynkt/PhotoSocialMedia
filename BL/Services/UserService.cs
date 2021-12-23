@@ -43,14 +43,13 @@ namespace BL.Services
             var userCreateResult = await _userManager.CreateAsync(user, userDto.Password);
             if (userCreateResult.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
                 return true;
             }
 
             throw new UserException(userCreateResult.Errors.First().Description);
         }
 
-        public async Task<bool> SignIn(UserLoginResource userDto)
+        public async Task<AuthenticateResponse> SignIn(UserLoginResource userDto)
         {
             var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userDto.Email);
             if (user is null)
@@ -64,9 +63,9 @@ namespace BL.Services
             if (userSigninResult.Succeeded)
             {
                 var checkAuth = _signInManager.Context.User.Identity.IsAuthenticated;
-                var roles = await _userManager.GetRolesAsync(user);
-               // return GenerateJwt(user, roles);
-               return true;
+                var roles = (await _userManager.GetRolesAsync(user));
+                var token = GenerateJwt(user, roles);
+                return new AuthenticateResponse(user,token,roles.FirstOrDefault());
             }
 
             throw new UserException("Email or password incorrect.");

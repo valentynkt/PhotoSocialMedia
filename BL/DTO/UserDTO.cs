@@ -12,7 +12,5 @@ namespace BL.DTO
         public string SecondName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public ICollection<int?> ImagesIds { get; set; }
-        public ICollection<int?> CommentsIds { get; set; }
     }
 }

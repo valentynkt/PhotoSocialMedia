@@ -205,7 +205,7 @@ namespace DAL.Migrations
                     ImageId = table.Column<int>(nullable: false),
                     PersonId = table.Column<int>(nullable: false),
                     Text = table.Column<string>(nullable: true),
-                    Rating = table.Column<int>(nullable: false),
+                    Rating = table.Column<int>(nullable: true),
                     CommentedOn = table.Column<DateTime>(nullable: false),
                     ClientProfileId = table.Column<int>(nullable: true)
                 },

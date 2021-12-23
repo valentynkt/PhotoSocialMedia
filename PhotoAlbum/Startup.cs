@@ -21,6 +21,7 @@ using DAL.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using PL.Extensions;
 
 
@@ -38,11 +39,10 @@ namespace PhotoAlbum
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
 
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Library")));
+                options.UseSqlServer(Configuration.GetConnectionString("PhotoAlbumDB")));
 
             services.AddIdentity<AppUser, AppRole>(opts =>
                     {
@@ -55,10 +55,11 @@ namespace PhotoAlbum
                 .AddDefaultTokenProviders();
 
             services.AddHttpContextAccessor();
+            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
 
-            //services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
+            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
 
-            //services.AddAuth(jwtSettings);
+            services.AddAuth(jwtSettings);
 
             services.AddCors();
 
@@ -72,7 +73,33 @@ namespace PhotoAlbum
             services.AddScoped<UserService>();
 
             services.AddAutoMapper(typeof(AutomapperProfile));
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT containing userid claim",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                });
+                var security =
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Id = "Bearer",
+                                    Type = ReferenceType.SecurityScheme
+                                },
+                                UnresolvedReference = true
+                            },
+                            new List<string>()
+                        }
+                    };
+                options.AddSecurityRequirement(security);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

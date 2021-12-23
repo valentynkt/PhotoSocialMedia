@@ -48,8 +48,8 @@ namespace PL.Controllers
             }
         }
 
-        [HttpGet("byemail")]
-        public async Task<UserDTO> GetUserByEmail([FromBody]string email)
+        [HttpGet("byemail/{email}")]
+        public async Task<UserDTO> GetUserByEmail(string email)
         {
             try
             {
@@ -95,8 +95,8 @@ namespace PL.Controllers
         }
 
 
-        [HttpDelete("byemail")]
-        public async Task<IActionResult> DeleteUserByEmail([FromBody]string email)
+        [HttpDelete("byemail/{email}")]
+        public async Task<IActionResult> DeleteUserByEmail(string email)
         {
             try
             {
@@ -127,9 +127,8 @@ namespace PL.Controllers
         {
             try
             {
-                var jwtString=await _userService.SignIn(userDto);
-                var checkAuth = _httpContext.User.Identity.IsAuthenticated;
-                return Ok(jwtString);
+                var response=await _userService.SignIn(userDto);
+                return Ok(response);
             }
             catch (Exception e)
             {

@@ -16,10 +16,6 @@ namespace BL
         {
             CreateMap<AppUser, UserDTO>()
                 .ForMember(u => u.Email, opt => opt.MapFrom(ur => ur.UserName))
-                .ForMember(u => u.CommentsIds,
-                    c => c.MapFrom(user => user.ClientProfile.Comments.Select(x => x.Id)))
-                .ForMember(u => u.ImagesIds,
-                    c => c.MapFrom(user => user.ClientProfile.Images.Select(x => x.Id)))
                 .ForMember(u => u.FirstName,c=>c.MapFrom(user => user.ClientProfile.FirstName))
                 .ForMember(u => u.SecondName, c => c.MapFrom(user => user.ClientProfile.SecondName))
                 .ReverseMap();

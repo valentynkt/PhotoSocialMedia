@@ -1,9 +1,8 @@
 import React,{Component} from "react";
 import axios from "axios";
-const api = axios.create({
-  baseURL: `https://localhost:44371/api/`,
-});
+import { Navigate } from "react-router-dom";
 export default class Register extends Component{
+    state={};
     handleSubmit=e=>{
         e.preventDefault();
         const data = {
@@ -12,8 +11,11 @@ export default class Register extends Component{
             Email : this.email,
             Password : this.password
         };
-        api.post("User/signup",data).then((res) => {
+        axios.post("User/signup",data).then((res) => {
             console.log(res.data);
+            this.setState({
+                registered:true
+              });
           }).catch(
             err=>{
               console.log(err.data);
@@ -22,10 +24,13 @@ export default class Register extends Component{
         console.log(data);
     };
     render(){
+        if (this.state.registered) {
+            return <Navigate to={'/'}/>
+        }
         return(
             <form onSubmit={this.handleSubmit}> 
                 <h3>
-
+Register
                 </h3>
 
                 <div className="form-group">

@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
-import { render } from "@testing-library/react";
-import { User } from "./User";
 import Home from "./components/Home.js";
 import { Navigation } from "./components/Navigation";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
@@ -12,30 +10,30 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
 
-const api = axios.create({
-  baseURL: `https://localhost:44371/api/`,
-});
+
 class App extends Component {
-  constructor() {
-    super();
-    api.get("User/signup").then((res) => {
-      console.log(res.data);
-    }).catch(
-      err=>{
-        console.log(err);
-      }
-    );
+  componentDidMount=()=>
+  {
+    let user=localStorage.getItem('user');
+    console.log(user);
+    this.setUser(user);
   }
+  state = {};
+      setUser = user =>{
+        this.setState({
+          user: user
+        });
+      };
   render() {
     return (
       <BrowserRouter>
         <div className="App container">
-         <Navigation/>
+         <Navigation user={this.state.user} setUser={this.setUser}/>
           <div className="auth-wrapper">
             <div className="auth-inner">
             <Routes>
-         <Route  path='/'  element={<Home/>}/>
-         <Route  path='/login'  element={<Login/>}/>
+         <Route  path='/'  element={<Home user={this.state.user}/>}/>
+         <Route  path='/login'  element={<Login setUser={this.setUser}/>}/>
          <Route  path='/register'  element={<Register/>}/>
          </Routes>
             </div>

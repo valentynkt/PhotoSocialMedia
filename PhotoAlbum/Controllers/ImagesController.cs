@@ -9,9 +9,11 @@ using System.Threading.Tasks;
 using BL.DTO;
 using BL.Interfaces;
 using BL.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
