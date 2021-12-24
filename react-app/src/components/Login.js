@@ -1,51 +1,55 @@
 import axios from "axios";
-import React,{Component} from "react";
-import {Navigate} from 'react-router-dom'
-export default class Login extends Component{
-  state={};
-    handleSubmit=e=>{
-        e.preventDefault();
-        const data = {
-            Email : this.email,
-            Password : this.password
-        };
-        axios.post("User/signin",data).then((res) => {
-            console.log(res);
-            localStorage.setItem('token',res.data.token);
-            localStorage.setItem('user',res.data);
-            this.setState({
-              loggedIn:true
-            });
-            this.props.setUser(res.data);
-          }).catch(
-            err=>{
-              console.log(err.data);
-            }
-          );
-    };
-    render(){
-      if (this.state.loggedIn) {
-        return <Navigate to={'/'}/>
-      }
-        return(
-            <form onSubmit={this.handleSubmit}> 
-            <h3>
-Login
-            </h3>
+import React,{Component,useState,useContext} from "react";
+import {Navigate} from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import { UserContext } from "../utils/UserContext";
 
-            <div className="form-group">
-               <label>Email</label>
-               <input type="email" className="form-control" 
-               placeholder="Email" onChange={e=>this.email = e.target.value}/>
-            </div>
+export default function Login() {
+  const {setUser} = useContext(UserContext);
+  const [error,setError] = useState("Invalid password");
+  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+     const handleLogin=()=>{
+       setError(null);
+       setLoading(true);
+      axios.post("User/signin",{Email : email,Password: password})
+      .then(response => {
+        setLoading(false);
+        setUser(response.data);
+       //this.props.history.push('/');
+        console.log("response >>>",response);
+      })
+      .catch(err => {
+        setLoading(false);
+        if (err.response.status === 401 || err.response.status === 400) {
+          setError(err.response.data.message);
+        }
+        else{
+          setError("something went wrong. Please try again");
+        }
+        console.log("error >>>",err);
+      })
+     }
+    return(
+        <form> 
+        <h3>
+        Login
+        </h3>
 
-            <div className="form-group">
-               <label>Password</label>
-               <input type="password" className="form-control" 
-               placeholder="Password" onChange={e=>this.password = e.target.value}/>
-            </div>
-            <button className="btn btn-primary btn-block btn-lg">Login</button>
-        </form>
-        )
-    }
+        <div className="form-group">
+           <label>Email</label>
+           <input type="email" className="form-control" 
+           placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)}/>
+        </div>
+
+        <div className="form-group">
+           <label>Password</label>
+           <input type="password" className="form-control" 
+           placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)}/>
+        </div>
+        {error && <Alert severity="error">This is an error alert — check it out!</Alert>}
+        <button className="btn btn-primary btn-block btn-lg" disabled={loading} onClick={handleLogin()}>{loading?"Loading...":"Login"}</button>
+    </form>
+    )
 }

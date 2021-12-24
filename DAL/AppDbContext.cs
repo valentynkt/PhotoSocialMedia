@@ -25,12 +25,14 @@ namespace DAL
                    new AppRole()
                    {
                        Id = 1,
-                       Name = "USER",
+                       Name = "user",
+                       NormalizedName = "USER"
                    },
                    new AppRole
                    {
                        Id = 2,
-                       Name = "ADMIN"
+                       Name = "admin",
+                       NormalizedName = "ADMIN"
                    }
                );
         }

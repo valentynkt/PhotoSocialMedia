@@ -44,7 +44,10 @@ namespace BL.Services
             userDto.Id = user.Id;
             if (userCreateResult.Succeeded)
             {
-                await AddUserToRole(user.Email,"user");
+                bool adminRoleExists1 = await _roleManager.RoleExistsAsync("user");
+                bool adminRoleExists2 = await _roleManager.RoleExistsAsync("USER");
+                var adminRoleExists3 =  _roleManager.Roles;
+                await _userManager.AddToRoleAsync(user, "USER");
                 return true;
             }
 
@@ -53,7 +56,7 @@ namespace BL.Services
 
         public async Task<AuthenticateResponse> SignIn(UserLoginResource userDto)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userDto.Email);
+            var user = await _userManager.Users.Include(x=>x.ClientProfile).SingleOrDefaultAsync(u => u.UserName == userDto.Email);
             if (user is null)
             {
                 throw new UserException("User not found");
@@ -174,7 +177,7 @@ namespace BL.Services
 
         public async Task<bool> AddUserToRole(string userEmail, string roleName)
         {
-            var user = _userManager.Users.SingleOrDefault(u => u.UserName == userEmail);
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == userEmail);
             if (user is null)
             {
                 throw new UserException("User not found");

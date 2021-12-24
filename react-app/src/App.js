@@ -1,41 +1,34 @@
-import React, { Component } from "react";
-import logo from "./logo.svg";
+import React, { Component,useState,useMemo} from "react";
 import "./App.css";
 import axios from "axios";
 import Home from "./components/Home.js";
 import { Navigation } from "./components/Navigation";
 import "../node_modules/bootstrap/dist/css/bootstrap.css";
-import "../node_modules/bootstrap/dist/css/bootstrap.rtl.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
-
-
-class App extends Component {
-  componentDidMount=()=>
-  {
-    let user=localStorage.getItem('user');
-    console.log(user);
-    this.setUser(user);
-  }
-  state = {};
-      setUser = user =>{
-        this.setState({
-          user: user
-        });
-      };
-  render() {
+import Account from "./components/Account";
+import { UserContext } from "./utils/UserContext";
+function App() {
+  const [user, setUser] = useState(null)
+  const providerUser=useMemo(() => ({user,setUser}), [user, setUser])
     return (
+      <UserContext.Provider value={providerUser}>
       <BrowserRouter>
         <div className="App container">
-         <Navigation user={this.state.user} setUser={this.setUser}/>
-          <div className="auth-wrapper">
+         
+           <Navigation />
+           <div className="auth-wrapper">
             <div className="auth-inner">
             <Routes>
-         <Route  path='/'  element={<Home user={this.state.user}/>}/>
-         <Route  path='/login'  element={<Login setUser={this.setUser}/>}/>
+           
+          <Route  path='/'  element={<Home />}/>
+         <Route  path='/login'  element={<Login />}/>
          <Route  path='/register'  element={<Register/>}/>
+         <Route  path='/account'  element={<Account/>}/>
+
          </Routes>
+
             </div>
           </div>
           {/* <Navigation/>
@@ -45,8 +38,10 @@ class App extends Component {
       </Routes> */}
         </div>
       </BrowserRouter>
+      </UserContext.Provider>
     );
-  }
 }
 
 export default App;
+
+

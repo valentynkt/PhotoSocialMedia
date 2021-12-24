@@ -51,14 +51,16 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "4aae0066-b6dd-468a-9411-7551cba0cd29",
-                            Name = "user"
+                            ConcurrencyStamp = "6c70d9a5-d451-4cc3-9d4f-8a2e73046a1f",
+                            Name = "user",
+                            NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "dcebdb0b-acb0-4eee-af6c-925b2e230afe",
-                            Name = "admin"
+                            ConcurrencyStamp = "784e6ce8-cfbf-48ac-a190-8e9b9c8f6aed",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 
