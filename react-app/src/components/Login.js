@@ -5,8 +5,8 @@ import Alert from '@mui/material/Alert';
 import { UserContext } from "../utils/UserContext";
 
 export default function Login() {
-  const {setUser} = useContext(UserContext);
-  const [error,setError] = useState("Invalid password");
+  const {user,setUser} = useContext(UserContext);
+  const [error,setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,9 +30,10 @@ export default function Login() {
         }
         console.log("error >>>",err);
       })
-     }
+      console.log(user);
+     };
     return(
-        <form> 
+        <form onSubmit={handleLogin}> 
         <h3>
         Login
         </h3>
@@ -48,8 +49,8 @@ export default function Login() {
            <input type="password" className="form-control" 
            placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)}/>
         </div>
-        {error && <Alert severity="error">This is an error alert — check it out!</Alert>}
-        <button className="btn btn-primary btn-block btn-lg" disabled={loading} onClick={handleLogin()}>{loading?"Loading...":"Login"}</button>
+        {error && <Alert severity="error">{error}</Alert>}
+        <input type="submit" className="btn btn-primary btn-block btn-lg" disabled={loading}  value={loading?"Loading...":"Login"}/>
     </form>
     )
 }

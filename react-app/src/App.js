@@ -10,11 +10,12 @@ import Register from "./components/Register";
 import Account from "./components/Account";
 import { UserContext } from "./utils/UserContext";
 function App() {
-  const [user, setUser] = useState(null)
-  const providerUser=useMemo(() => ({user,setUser}), [user, setUser])
+  const [user, setUser] = useState(null);
+  const providerUser=useMemo(() => ({user,setUser}), [user, setUser]);
     return (
-      <UserContext.Provider value={providerUser}>
       <BrowserRouter>
+      <UserContext.Provider value="hello from context">
+
         <div className="App container">
          
            <Navigation />
@@ -37,8 +38,8 @@ function App() {
         <Route path='/user'  element={<User/>}/>
       </Routes> */}
         </div>
-      </BrowserRouter>
       </UserContext.Provider>
+      </BrowserRouter>
     );
 }
 
