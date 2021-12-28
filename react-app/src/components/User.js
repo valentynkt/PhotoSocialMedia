@@ -32,7 +32,7 @@ const User = ({ children }) => {
           </ul>
         </div>
       </Navigation>
-      <div className="auth-wrapper">
+      <div>
         <div>{children}</div>
       </div>
     </>

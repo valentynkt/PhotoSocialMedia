@@ -12,6 +12,7 @@ body {
   font-family:'Roboto';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding-top: 5rem;
 }
 h1,h2,h3,h4,h5,h6,label,span{
   font-weight: 500;
@@ -59,4 +60,11 @@ body,html, .App,#root{
 }
 .nav-link{
   margin: auto;
+}
+.navbar{
+  width: 100%;
+}
+.imageItem{
+  display: flex;
+  flex-grow: 2;
 }

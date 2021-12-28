@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
-import { ImageList, ImageListItem } from "@material-ui/core";
+import { ImageList, ImageListItem,ImageListItemBar } from "@material-ui/core";
 const PhotoGallery = () => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +11,11 @@ const PhotoGallery = () => {
     const data = await response.data;
     setPhotos(data);
   };
-
+  const findUserById=async (id) =>{
+    const response = await axios.get("User/"+id);
+    const user = await response.data;
+    return user;
+  }
   useEffect(() => {
     (async () => {
       await fetchData();
@@ -28,13 +32,14 @@ const PhotoGallery = () => {
   else
     return (
       <div>
-        <ImageList cellHeight={350} cols={3}>
+        <ImageList cellHeight={350} cols={2}>
           {photos.map((image) => (
-            <ImageListItem key={image.id} cols={(image.width/1200/2).toFixed(0)}>
+            <ImageListItem key={image.id}>
               <img
                 src={`data:image/png;base64,${image.imageData}`}
                 alt={image.imageTitle}
               />
+              <ImageListItemBar title={image.imageTitle} subtitle={findUserById(image.personId).firstName}/>
             </ImageListItem>
           ))}
         </ImageList>

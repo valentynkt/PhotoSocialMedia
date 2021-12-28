@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 export function Navigation ({children}) {
     return (
-      <nav className="navbar navbar-expand navbar-light fixed-top">
+      <nav className="navbar navbar-expand navbar-light fixed-top ">
         <div className="container">
       {children}
         </div>
