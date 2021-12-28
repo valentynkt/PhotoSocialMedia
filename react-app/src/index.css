@@ -57,3 +57,6 @@ body,html, .App,#root,.auth-wrapper{
 .form-group{
   padding-bottom: 2vh;
 }
+.nav-link{
+  margin: auto;
+}

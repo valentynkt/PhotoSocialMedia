@@ -1,11 +1,11 @@
 import React from "react";
-import Home from "./Home";
+import Guest from "./Guest";
 import PhotoGallery from "./PhotoGallery";
 const GuestMain=() => {
  return(
- <Home>
+ <Guest>
      <PhotoGallery/>
- </Home>
+ </Guest>
  );
 }
 export default GuestMain;

@@ -11,11 +11,11 @@ const User = ({ children }) => {
   let user = JSON.parse(localStorage.getItem("user"));
   return (
     <>
-      <NavLink className="navbar-brand" to={"/user"}>
-        Home
-      </NavLink>
-      <div className="collapse navbar-collapse">
-        <Navigation>
+      <Navigation>
+        <NavLink className="navbar-brand" to={"/user"}>
+          Home
+        </NavLink>
+        <div className="collapse navbar-collapse">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
               <Stack direction="row" spacing={2}>
@@ -30,11 +30,11 @@ const User = ({ children }) => {
               </Stack>
             </li>
           </ul>
-        </Navigation>
-        <div className="auth-wrapper">
-          <div className="auth-inner">
-            <h2>{children}</h2>
-          </div>
+        </div>
+      </Navigation>
+      <div className="auth-wrapper">
+        <div className="auth-inner">
+          <div>{children}</div>
         </div>
       </div>
     </>

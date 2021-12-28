@@ -2,7 +2,7 @@ import axios from "axios";
 import React,{useState,} from "react";
 import {Navigate} from 'react-router-dom';
 import Alert from '@mui/material/Alert';
-import Home from "./Home";
+import Guest from "./Guest";
 export default function Login(props) {
   const [error,setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ export default function Login(props) {
       return <Navigate to={'/user'}/>
     }
     return(
-<Home>
+<Guest>
 <form onSubmit={handleLogin}> 
         <h3>
         Login
@@ -55,6 +55,6 @@ export default function Login(props) {
         {error && <Alert severity="error">{error}</Alert>}
         <input type="submit" className="btn btn-primary btn-block btn-lg" disabled={loading}  value={loading?"Loading...":"Login"}/>
     </form>
-</Home>
+</Guest>
     )
 }
