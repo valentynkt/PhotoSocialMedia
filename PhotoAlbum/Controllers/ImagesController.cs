@@ -86,27 +86,15 @@ namespace PL.Controllers
                 return null;
             }
         }*/
-        [HttpPost]
-        public async Task<IActionResult> Upload(IFormFile file)
+        [HttpPost("{email}")]
+        public async Task<IActionResult> Upload(IFormFile file,string email)
         {
             try
             {
-                if (file != null)
+                if (file != null && !string.IsNullOrEmpty(email))
                 {
-                    ImageDTO imageDto = new ImageDTO() { ImageTitle = file.FileName,PublishedTime = DateTime.Now};
-                    byte[] imageData = null;
-                    // считываем переданный файл в массив байтов
-                    using (var binaryReader = new BinaryReader(file.OpenReadStream()))
-                    {
-                        imageData = binaryReader.ReadBytes((int)file.Length);
-                    }
-                    // установка массива байтов
-                    imageDto.ImageData = imageData;
-                    //var user = await _userService.GetUserAsync(HttpContext.User);
-                    var checkAuth = _httpContext.User.Identity.IsAuthenticated;
-                    var userEmail = _httpContext.User.FindFirst(ClaimTypes.Name).Value;
-                    var user =await _userService.GetUserByEmail(userEmail);
-                    imageDto.PersonId = user.Id;
+                    var user = await _userService.GetUserByEmail(email);
+                    ImageDTO imageDto = new ImageDTO(file,user.Id);
                     await _imageService.AddAsync(imageDto);
                     return CreatedAtAction(nameof(Upload), new { id = imageDto.Id }, imageDto);
                 }
