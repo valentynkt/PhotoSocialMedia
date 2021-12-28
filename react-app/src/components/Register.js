@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import Home from "./Home";
 export default class Register extends Component{
     state={};
     handleSubmit=e=>{
@@ -25,10 +26,11 @@ export default class Register extends Component{
     };
     render(){
         if (this.state.registered) {
-            return <Navigate to={'/'}/>
+            return <Navigate to={'/login'}/>
         }
         return(
-            <form onSubmit={this.handleSubmit}> 
+            <Home>
+  <form onSubmit={this.handleSubmit}> 
                 <h3>
 Register
                 </h3>
@@ -58,6 +60,7 @@ Register
                 </div>
                 <button className="btn btn-primary btn-block btn-lg">Sign Up</button>
             </form>
+            </Home>     
         )
     }
 }

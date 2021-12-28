@@ -1,26 +1,26 @@
 import axios from "axios";
-import React,{Component,useState,useContext} from "react";
+import React,{useState,} from "react";
 import {Navigate} from 'react-router-dom';
 import Alert from '@mui/material/Alert';
-import { UserContext } from "../utils/UserContext";
-
-export default function Login() {
-  const {user,setUser} = useContext(UserContext);
+import Home from "./Home";
+export default function Login(props) {
   const [error,setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-     const handleLogin=()=>{
-       setError(null);
-       setLoading(true);
-      axios.post("User/signin",{Email : email,Password: password})
-      .then(response => {
-        setLoading(false);
-        setUser(response.data);
-       //this.props.history.push('/');
+ const [redirect,setRedirect] =useState(false);
+     const handleLogin=async (e)=>{
+      e.preventDefault();
+      setError(null);
+      setLoading(true);
+       try {
+         const response= await axios.post("User/signin",{Email : email,Password: password});
+         setLoading(false);
+         localStorage.setItem('token',response.data.token);
+         localStorage.setItem('user',JSON.stringify(response.data));
+         setRedirect(true);
         console.log("response >>>",response);
-      })
-      .catch(err => {
+       } catch (err) {
         setLoading(false);
         if (err.response.status === 401 || err.response.status === 400) {
           setError(err.response.data.message);
@@ -29,11 +29,14 @@ export default function Login() {
           setError("something went wrong. Please try again");
         }
         console.log("error >>>",err);
-      })
-      console.log(user);
+       }
      };
+     if (redirect) {
+      return <Navigate to={'/user'}/>
+    }
     return(
-        <form onSubmit={handleLogin}> 
+<Home>
+<form onSubmit={handleLogin}> 
         <h3>
         Login
         </h3>
@@ -52,5 +55,6 @@ export default function Login() {
         {error && <Alert severity="error">{error}</Alert>}
         <input type="submit" className="btn btn-primary btn-block btn-lg" disabled={loading}  value={loading?"Loading...":"Login"}/>
     </form>
+</Home>
     )
 }

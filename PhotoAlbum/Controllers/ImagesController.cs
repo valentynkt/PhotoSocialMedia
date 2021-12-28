@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PL.Controllers
 {
-    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
