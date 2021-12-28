@@ -33,9 +33,7 @@ const User = ({ children }) => {
         </div>
       </Navigation>
       <div className="auth-wrapper">
-        <div className="auth-inner">
-          <div>{children}</div>
-        </div>
+        <div>{children}</div>
       </div>
     </>
   );

@@ -36,6 +36,7 @@ export default function Login(props) {
     }
     return(
 <Guest>
+<div className="auth-inner">
 <form onSubmit={handleLogin}> 
         <h3>
         Login
@@ -55,6 +56,7 @@ export default function Login(props) {
         {error && <Alert severity="error">{error}</Alert>}
         <input type="submit" className="btn btn-primary btn-block btn-lg" disabled={loading}  value={loading?"Loading...":"Login"}/>
     </form>
+    </div>
 </Guest>
     )
 }

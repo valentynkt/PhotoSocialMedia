@@ -5,41 +5,42 @@ function Account() {
   let user = JSON.parse(localStorage.getItem("user"));
   return (
     <User>
-      <div class="row profile">
-        <div class="col-md-3">
-          <div class="profile-sidebar">
-            <div class="profile-usertitle">
-              <div class="profile-usertitle-name">Sfgdsfsd SDfsdfs</div>
-              <div class="profile-usertitle-job">Developer</div>
+      <div className="auth-inner">
+      <div className="row profile">
+        <div className="col-md-3">
+          <div className="profile-sidebar">
+            <div className="profile-usertitle">
+              <div className="profile-usertitle-name">Sfgdsfsd SDfsdfs</div>
+              <div className="profile-usertitle-job">Developer</div>
             </div>
 
-            <div class="profile-userbuttons">
-              <a class="btn btn-success btn-sm">Edit my profile</a>
+            <div className="profile-userbuttons">
+              <a className="btn btn-success btn-sm">Edit my profile</a>
             </div>
 
-            <div class="profile-usermenu">
-              <ul class="nav">
-                <li class="active">
+            <div className="profile-usermenu">
+              <ul className="nav">
+                <li className="active">
                   <a href="profile.html">
-                    <i class="glyphicon glyphicon-home"></i>
+                    <i className="glyphicon glyphicon-home"></i>
                     Overview{" "}
                   </a>
                 </li>
                 <li>
                   <a href="#">
-                    <i class="glyphicon glyphicon-user"></i>
+                    <i className="glyphicon glyphicon-user"></i>
                     Account Settings{" "}
                   </a>
                 </li>
                 <li>
                   <a href="#" target="_blank">
-                    <i class="glyphicon glyphicon-ok"></i>
+                    <i className="glyphicon glyphicon-ok"></i>
                     Tasks{" "}
                   </a>
                 </li>
                 <li>
                   <a href="#">
-                    <i class="glyphicon glyphicon-flag"></i>
+                    <i className="glyphicon glyphicon-flag"></i>
                     Help{" "}
                   </a>
                 </li>
@@ -47,15 +48,15 @@ function Account() {
             </div>
           </div>
         </div>
-        <div class="col-md-9">
-          <div class="profile-content">
-            <div class="row">
-              <div class="col-md-12">
+        <div className="col-md-9">
+          <div className="profile-content">
+            <div className="row">
+              <div className="col-md-12">
                 <h4>Your Profile</h4>
                 <br />
               </div>
             </div>
-            <table class="table table-user-information">
+            <table className="table table-user-information">
               <tbody>
                 <tr>
                   <td>Department:</td>
@@ -91,6 +92,7 @@ function Account() {
             </table>
           </div>
         </div>
+      </div>
       </div>
     </User>
   );
