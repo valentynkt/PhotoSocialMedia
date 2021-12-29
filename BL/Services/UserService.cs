@@ -125,14 +125,14 @@ namespace BL.Services
 
         public async Task<IEnumerable<UserDTO>> GetAllUsers()
         {
-            var users = await _userManager.Users.ToListAsync();
+            var users = await _userManager.Users.Include(x => x.ClientProfile).ToListAsync();
             var userListDto = _mapper.Map<IEnumerable<UserDTO>>(users);
             return userListDto;
         }
 
         public async Task<UserDTO> GetUserByEmail(string email)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == email);
+            var user = await _userManager.Users.Include(x => x.ClientProfile).SingleOrDefaultAsync(u => u.UserName == email);
             if (user is null)
             {
                 throw new UserException("User not found");
@@ -143,7 +143,7 @@ namespace BL.Services
         }
         public async Task<UserDTO> GetUserById(int id)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.Id==id);
+            var user = await _userManager.Users.Include(x => x.ClientProfile).SingleOrDefaultAsync(u => u.Id==id);
             if (user is null)
             {
                 throw new UserException("User not found");

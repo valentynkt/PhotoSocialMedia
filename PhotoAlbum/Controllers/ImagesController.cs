@@ -32,7 +32,8 @@ namespace PL.Controllers
         [HttpGet]
         public async Task<IEnumerable<ImageDTO>> GetAll()
         {
-            return await _imageService.GetAllAsync();
+            var images = await _imageService.GetAllAsync();
+            return images;
         }
 
         [HttpGet("{id}")]

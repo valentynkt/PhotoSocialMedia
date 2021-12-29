@@ -87,6 +87,12 @@ namespace BL.Services
             var commentsDto = _mapper.Map<IEnumerable<CommentDTO>>(comments);
             return commentsDto;
         }
+        public async Task<IEnumerable<ImageDTO>> GetImageByTitle(string title)
+        {
 
+            var images = await _unitOfWork.ImageRepository.FindByConditionAsync(x=>x.ImageTitle.Contains(title));
+            var imagesModel = _mapper.Map<IEnumerable<ImageDTO>>(images);
+            return imagesModel;
+        }
     }
 }
