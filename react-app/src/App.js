@@ -11,6 +11,7 @@ import Account from "./components/Account";
 import UserMain from "./components/UserMain";
 import GuestMain from "./components/GuestMain";
 import Main from "./components/Main";
+import EditProfile from "./components/EditProfile";
 function App() {
     return (
       <BrowserRouter>
@@ -23,7 +24,7 @@ function App() {
          <Route  path='/login'  element={<Login />}/>
          <Route  path='/register'  element={<Register/>}/>
          <Route  path='/user/account'  element={<Account/>}/>
-
+         <Route  path='/user/account/edit'  element={<EditProfile/>}/>
          </Routes>
         </div>
       </BrowserRouter>

@@ -75,18 +75,7 @@ namespace PL.Controllers
             }
         }
 
-/*        [HttpGet("{id}/comments")]
-        public async Task<IEnumerable<CommentDTO>> GetImageComments(int id)
-        {
-            try
-            {
-                await _imageService.
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }*/
+
         [HttpPost("{email}")]
         public async Task<IActionResult> Upload(IFormFile file,string email)
         {
@@ -105,6 +94,34 @@ namespace PL.Controllers
             catch (Exception e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("bytitle/{title}")]
+        public async Task<IEnumerable<ImageDTO>> GetImageByTitle(string title)
+        {
+            try
+            {
+                var images = await _imageService.GetImageByTitle(title);
+                return images;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+        }
+
+        [HttpGet("{id}/comments")]
+        public async Task<IEnumerable<CommentDTO>> GetImageComments(int id)
+        {
+            try
+            {
+               var images = await _imageService.GetImageComments(id);
+               return images;
+            }
+            catch (Exception e)
+            {
+                return null;
             }
         }
 

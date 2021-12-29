@@ -2,7 +2,8 @@ import React from "react";
 import { TextField } from "@mui/material";
 const InputPhotos = (props) => {
   return (
-    <form style={{ margin: "2rem 0" }}>
+    <form style={{ margin: "2rem 0" }}
+    onSubmit={props.submit}>
       <TextField onChange={props.change} fullWidth label="Search for photos" />
     </form>
   );

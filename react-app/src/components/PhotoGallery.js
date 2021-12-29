@@ -8,11 +8,18 @@ const PhotoGallery = () => {
   const [loading, setLoading] = useState(true);
   const [formData,setformData] = useState('');
 
-  const fetchData = async () => {
+  const fetchData = async (input) => {
     setLoading(true);
-    const response = await axios.get("Images");
-    const data = await response.data;
-    setPhotos(data);
+    if (!input) {
+      const response = await axios.get("Images");
+      const data = await response.data;
+      setPhotos(data);
+    }
+    else{
+      const response = await axios.get("Images/bytitle/"+input);
+      const data = await response.data;
+      setPhotos(data);
+    }
   };
 
   const handleChange=(event)=>{
@@ -22,6 +29,7 @@ const PhotoGallery = () => {
   const handleSubmit=(event)=>{
     event.preventDefault();
     fetchData(formData);
+    setLoading(false);
   }
   const findUserById= async (id) =>{
     const response = await axios.get("User/"+id);
@@ -44,7 +52,7 @@ const PhotoGallery = () => {
   else
     return (
       <div>
-        <InputPhotos change={handleChange}/>
+        <InputPhotos change={handleChange} submit={handleSubmit}/>
         <ImageList rowHeight={350} cols={2}>
           {photos.map((image) => (
             <ImageListItem key={image.id}>

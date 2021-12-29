@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -90,9 +91,14 @@ namespace BL.Services
         public async Task<IEnumerable<ImageDTO>> GetImageByTitle(string title)
         {
 
-            var images = await _unitOfWork.ImageRepository.FindByConditionAsync(x=>x.ImageTitle.Contains(title));
-            var imagesModel = _mapper.Map<IEnumerable<ImageDTO>>(images);
+            var images = await _unitOfWork.ImageRepository.GetAllAsync();
+            var imagesByTitle = images.Where(x=> Contains(x.ImageTitle,title, StringComparison.InvariantCultureIgnoreCase)).ToList();
+            var imagesModel = _mapper.Map<IEnumerable<ImageDTO>>(imagesByTitle);
             return imagesModel;
+        }
+        private bool Contains(string source, string value, StringComparison comparisonType)
+        {
+            return source?.IndexOf(value, comparisonType) >= 0;
         }
     }
 }
