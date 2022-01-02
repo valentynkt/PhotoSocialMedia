@@ -3,7 +3,7 @@ import React,{useState,} from "react";
 import {Navigate} from 'react-router-dom';
 import Alert from '@mui/material/Alert';
 import Guest from "./Guest";
-export default function Login(props) {
+const Login=(props)=> {
   const [error,setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [user,setUser] = useState({
@@ -68,3 +68,4 @@ export default function Login(props) {
 </Guest>
     )
 };
+export default Login;
