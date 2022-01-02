@@ -6,15 +6,23 @@ import Guest from "./Guest";
 export default function Login(props) {
   const [error,setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user,setUser] = useState({
+    email: "",
+    password: "",
+  });
  const [redirect,setRedirect] =useState(false);
+     const handleEmail = (event) =>{
+       setUser({...user,email:event.target.value})
+     }
+     const handlePassword = (event) =>{
+      setUser({...user,password:event.target.value})
+    }
      const handleLogin=async (e)=>{
       e.preventDefault();
       setError(null);
       setLoading(true);
        try {
-         const response= await axios.post("User/signin",{Email : email,Password: password});
+         const response= await axios.post("User/signin",{Email : user.email,Password: user.password});
          setLoading(false);
          localStorage.setItem('token',response.data.token);
          localStorage.setItem('user',JSON.stringify(response.data));
@@ -45,13 +53,13 @@ export default function Login(props) {
         <div className="form-group">
            <label>Email</label>
            <input type="email" className="form-control" 
-           placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)}/>
+           placeholder="Email" value={user.email} onChange={handleEmail}/>
         </div>
 
         <div className="form-group">
            <label>Password</label>
            <input type="password" className="form-control" 
-           placeholder="Password" value={password} onChange={e=>setPassword(e.target.value)}/>
+           placeholder="Password" value={user.password} onChange={handlePassword}/>
         </div>
         {error && <Alert severity="error">{error}</Alert>}
         <input type="submit" className="btn btn-primary btn-block btn-lg" disabled={loading}  value={loading?"Loading...":"Login"}/>
@@ -59,4 +67,4 @@ export default function Login(props) {
     </div>
 </Guest>
     )
-}
+};
