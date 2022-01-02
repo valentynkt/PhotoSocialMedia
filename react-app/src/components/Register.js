@@ -17,32 +17,14 @@ const Register = () => {
   });
   const [registered, setRegistered] = useState(false);
 
-  const handleFirstName = (event) => {
-    setUser({ ...user, firstName: event.target.value });
-  };
-  const handleSecondName = (event) => {
-    setUser({ ...user, secondName: event.target.value });
-  };
-  const handleAbout = (event) => {
-    setUser({ ...user, about: event.target.value });
-  };
-  const handleGender = (event) => {
-    var value=event.target.options[event.target.selectedIndex].value;
-    setUser({ ...user, gender: value});
-  };
-  const handleEmail = (event) => {
-    setUser({ ...user, email: event.target.value });
-  };
-  const handlePhone = (event) => {
-    setUser({ ...user, phone: event.target.value });
-  };
-  const handlePassword = (event) => {
-    setUser({ ...user, password: event.target.value });
-  };
-  const handleConfirmPassword = (event) => {
-    setUser({ ...user, confirmPassword: event.target.value });
-  };
-  
+  const handleChangeFunc = (event) => {
+    const { name, value } = event.target
+
+    setUser((prevValue) => ({
+        ...prevValue,
+        [name]: value,
+    }))
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,8 +77,9 @@ const Register = () => {
                         class="form-control"
                         id="firstName"
                         placeholder="Enter first name"
+                        name="firstName"
                         required minlength="3"
-                        onChange={handleFirstName}
+                        onChange={handleChangeFunc}
                       />
                     </div>
                   </div>
@@ -108,8 +91,9 @@ const Register = () => {
                         class="form-control"
                         id="lastName"
                         placeholder="Enter last name"
+                        name="secondName"
                         required minlength="3"
-                        onChange={handleSecondName}
+                        onChange={handleChangeFunc}
                       />
                     </div>
                   </div>
@@ -121,8 +105,9 @@ const Register = () => {
                         class="form-control"
                         id="eMail"
                         placeholder="Enter email"
+                        name="email"
                         required pattern="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
-                        onChange={handleEmail}
+                        onChange={handleChangeFunc}
                       />
                     </div>
                   </div>
@@ -134,8 +119,9 @@ const Register = () => {
                         class="form-control"
                         id="phone"
                         placeholder="Enter phone number"
+                        name="phone"
                         required pattern="^[0-9\-\+]{9,15}$"
-                        onChange={handlePhone}
+                        onChange={handleChangeFunc}
                       />
                     </div>
                   </div>
@@ -146,15 +132,16 @@ const Register = () => {
                         class="form-control"
                         id="about"
                         placeholder="Write About Yourself"
+                        name="about"
                         required minLength="6"
-                        onChange={handleAbout}
+                        onChange={handleChangeFunc}
                       ></textarea>
                     </div>
                   </div>
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
                       <label for="gender">Gender</label>
-                      <select class="form-select  mb-3"  onChange={handleGender}>
+                      <select class="form-select  mb-3" name="gender"  onChange={handleChangeFunc}>
                         <option defaultValue value="male">
                           Male
                         </option>
@@ -175,8 +162,9 @@ const Register = () => {
                         class="form-control"
                         id="Password"
                         placeholder="Enter Password"
+                        name="password"
                         required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
-                        onChange={handlePassword}
+                        onChange={handleChangeFunc}
                       />
                     </div>
                   </div>
@@ -188,8 +176,9 @@ const Register = () => {
                         class="form-control"
                         id="ConfirmPassword"
                         placeholder="Confirm Password"
+                        name="confirmPassword"
                         required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
-                        onChange={handleConfirmPassword}
+                        onChange={handleChangeFunc}
                       />
                     </div>
                   </div>
