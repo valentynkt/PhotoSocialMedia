@@ -116,7 +116,7 @@ namespace PL.Controllers
             try
             {
                await _userService.SignUp(userDto);
-               return CreatedAtAction(nameof(SignUp),new{id= userDto.Id},userDto);
+               return CreatedAtAction(nameof(SignUp),new{email= userDto.Email},userDto);
             }
             catch (Exception e)
             {

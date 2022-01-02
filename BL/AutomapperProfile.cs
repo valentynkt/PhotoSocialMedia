@@ -18,6 +18,8 @@ namespace BL
                 .ForMember(u => u.Email, opt => opt.MapFrom(ur => ur.UserName))
                 .ForMember(u => u.FirstName,c=>c.MapFrom(user => user.ClientProfile.FirstName))
                 .ForMember(u => u.SecondName, c => c.MapFrom(user => user.ClientProfile.SecondName))
+                .ForMember(u=>u.About,c=>c.MapFrom(user=>user.ClientProfile.About))
+                .ForMember(u=>u.Gender,c=>c.MapFrom(user=>user.ClientProfile.Gender))
                 .ReverseMap();
             CreateMap<Image, ImageDTO>().ReverseMap();
             CreateMap<Comment, CommentDTO>().ReverseMap();

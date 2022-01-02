@@ -15,6 +15,8 @@ namespace DAL.Entities
 
         public string FirstName { get; set; }
         public string SecondName { get; set; }
+        public string About { get; set; }
+        public string Gender { get; set; }
         public ICollection<Image> Images { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public virtual AppUser AppUser { get; set; }

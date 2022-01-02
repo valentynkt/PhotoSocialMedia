@@ -24,7 +24,7 @@ const Guest = ({ children }) => {
       </div>
       </Navigation>
 
-      <div>
+      <div className="auth-wrapper">
         {children}
       </div>
     </>

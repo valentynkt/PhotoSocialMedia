@@ -41,12 +41,8 @@ namespace BL.Services
         {
             var user = _mapper.Map<AppUser>(userDto);
             var userCreateResult = await _userManager.CreateAsync(user, userDto.Password);
-            userDto.Id = user.Id;
             if (userCreateResult.Succeeded)
             {
-                bool adminRoleExists1 = await _roleManager.RoleExistsAsync("user");
-                bool adminRoleExists2 = await _roleManager.RoleExistsAsync("USER");
-                var adminRoleExists3 =  _roleManager.Roles;
                 await _userManager.AddToRoleAsync(user, "USER");
                 return true;
             }
