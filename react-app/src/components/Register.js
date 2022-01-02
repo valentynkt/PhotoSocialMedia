@@ -9,7 +9,7 @@ const Register = () => {
     firstName: "",
     secondName: "",
     about: "",
-    gender: "",
+    gender: "male",
     email: "",
     phone: "",
     password: "",
@@ -27,7 +27,8 @@ const Register = () => {
     setUser({ ...user, about: event.target.value });
   };
   const handleGender = (event) => {
-    setUser({ ...user, gender: event.target.value });
+    var value=event.target.options[event.target.selectedIndex].value;
+    setUser({ ...user, gender: value});
   };
   const handleEmail = (event) => {
     setUser({ ...user, email: event.target.value });
@@ -52,11 +53,11 @@ const Register = () => {
     else{
       const data = {
         FirstName: user.firstName,
-        SecondName: user.lastName,
+        SecondName: user.secondName,
         About: user.about,
         Gender: user.gender,
         Email: user.email,
-        Phone: user.phone,
+        PhoneNumber: user.phone,
         Password: user.password,
       };
       try {
@@ -94,6 +95,7 @@ const Register = () => {
                         class="form-control"
                         id="firstName"
                         placeholder="Enter first name"
+                        required minlength="3"
                         onChange={handleFirstName}
                       />
                     </div>
@@ -106,6 +108,7 @@ const Register = () => {
                         class="form-control"
                         id="lastName"
                         placeholder="Enter last name"
+                        required minlength="3"
                         onChange={handleSecondName}
                       />
                     </div>
@@ -118,6 +121,7 @@ const Register = () => {
                         class="form-control"
                         id="eMail"
                         placeholder="Enter email"
+                        required pattern="^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$"
                         onChange={handleEmail}
                       />
                     </div>
@@ -130,6 +134,7 @@ const Register = () => {
                         class="form-control"
                         id="phone"
                         placeholder="Enter phone number"
+                        required pattern="^[0-9\-\+]{9,15}$"
                         onChange={handlePhone}
                       />
                     </div>
@@ -141,7 +146,7 @@ const Register = () => {
                         class="form-control"
                         id="about"
                         placeholder="Write About Yourself"
-                        required
+                        required minLength="6"
                         onChange={handleAbout}
                       ></textarea>
                     </div>
@@ -164,24 +169,26 @@ const Register = () => {
                   </div>
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
-                      <label for="Street">Password</label>
+                      <label for="Password">Password</label>
                       <input
-                        type="name"
+                        type="password"
                         class="form-control"
-                        id="Street"
-                        placeholder="Enter Street"
+                        id="Password"
+                        placeholder="Enter Password"
+                        required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
                         onChange={handlePassword}
                       />
                     </div>
                   </div>
                   <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-group">
-                      <label for="ciTy">Confirm Password</label>
+                      <label for="ConfirmPassword">Confirm Password</label>
                       <input
-                        type="name"
+                        type="password"
                         class="form-control"
-                        id="ciTy"
-                        placeholder="Enter City"
+                        id="ConfirmPassword"
+                        placeholder="Confirm Password"
+                        required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
                         onChange={handleConfirmPassword}
                       />
                     </div>
