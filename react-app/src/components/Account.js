@@ -19,13 +19,12 @@ function Account() {
           <div className="col-md-3">
             <div className="profile-sidebar">
               <div className="profile-usertitle">
-                <h1 className="profile-usertitle-name">Valentyn Kit</h1>
+                <h1 className="profile-usertitle-name">{user.firstName + " " + user.secondName}</h1>
               </div>
               <div class="about">
                 <h5>About</h5>
                 <p>
-                  I'm Yuki. Full Stack Designer I enjoy creating user-centric,
-                  delightful and human experiences.
+                  {user.about}
                 </p>
               </div>
               <div className="profile-userbuttons">

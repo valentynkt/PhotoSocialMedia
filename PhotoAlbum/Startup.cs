@@ -73,6 +73,7 @@ namespace PhotoAlbum
             services.AddScoped<UserService>();
 
             services.AddAutoMapper(typeof(AutomapperProfile));
+
             services.AddSwaggerGen(options =>
             {
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

@@ -11,12 +11,15 @@ const Login=(props)=> {
     password: "",
   });
  const [redirect,setRedirect] =useState(false);
-     const handleEmail = (event) =>{
-       setUser({...user,email:event.target.value})
-     }
-     const handlePassword = (event) =>{
-      setUser({...user,password:event.target.value})
-    }
+
+ const handleChangeFunc = (event) => {
+  const { name, value } = event.target
+
+  setUser((prevValue) => ({
+      ...prevValue,
+      [name]: value,
+  }))
+}
      const handleLogin=async (e)=>{
       e.preventDefault();
       setError(null);
@@ -53,13 +56,13 @@ const Login=(props)=> {
         <div className="form-group">
            <label>Email</label>
            <input type="email" className="form-control" 
-           placeholder="Email" value={user.email} onChange={handleEmail}/>
+           placeholder="Email" name="email" onChange={handleChangeFunc}/>
         </div>
 
         <div className="form-group">
            <label>Password</label>
            <input type="password" className="form-control" 
-           placeholder="Password" value={user.password} onChange={handlePassword}/>
+           placeholder="Password" name="password"  onChange={handleChangeFunc}/>
         </div>
         {error && <Alert severity="error">{error}</Alert>}
         <input type="submit" className="btn btn-primary btn-block btn-lg" disabled={loading}  value={loading?"Loading...":"Login"}/>

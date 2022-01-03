@@ -20,6 +20,7 @@ namespace BL
                 .ForMember(u => u.SecondName, c => c.MapFrom(user => user.ClientProfile.SecondName))
                 .ForMember(u=>u.About,c=>c.MapFrom(user=>user.ClientProfile.About))
                 .ForMember(u=>u.Gender,c=>c.MapFrom(user=>user.ClientProfile.Gender))
+                .ForMember(u=>u.DateOfRegistration,c=>c.MapFrom(user=>user.ClientProfile.DateOfRegistration))
                 .ReverseMap();
             CreateMap<Image, ImageDTO>().ReverseMap();
             CreateMap<Comment, CommentDTO>().ReverseMap();

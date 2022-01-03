@@ -17,6 +17,7 @@ namespace DAL.Entities
         public string SecondName { get; set; }
         public string About { get; set; }
         public string Gender { get; set; }
+        public DateTime DateOfRegistration { get; set; }
         public ICollection<Image> Images { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public virtual AppUser AppUser { get; set; }

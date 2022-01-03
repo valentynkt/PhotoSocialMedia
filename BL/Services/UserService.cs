@@ -58,13 +58,11 @@ namespace BL.Services
                 throw new UserException("User not found");
             }
 
-            var userResult = await _userManager.CheckPasswordAsync(user, userDto.Password);
             var userSigninResult = await _signInManager.PasswordSignInAsync(user.UserName, userDto.Password, userDto.RememberMe, false);
             
             if (userSigninResult.Succeeded)
             {
-                var checkAuth = _signInManager.Context.User.Identity.IsAuthenticated;
-                var roles = (await _userManager.GetRolesAsync(user));
+                var roles = await _userManager.GetRolesAsync(user);
                 var token = GenerateJwt(user, roles);
                 return new AuthenticateResponse(user,token,roles.FirstOrDefault());
             }
