@@ -15,7 +15,7 @@ namespace BL.DTO
         public string Gender { get; set; }
         public string PhoneNumber { get; set; }
         public string Role { get; set; }
-        public DateTime RegisterDate { get; set; }
+        public string RegisterDate { get; set; }
         public string Token { get; set; }
 
 
@@ -29,6 +29,7 @@ namespace BL.DTO
             Gender = user.ClientProfile.Gender;
             PhoneNumber = user.PhoneNumber;
             Role = role;
+            RegisterDate = user.ClientProfile.DateOfRegistration.ToString("MM/dd/yyyy HH:mm:ss");
             Token = token;
         }
     }

@@ -46,11 +46,11 @@ function Account() {
                 <tbody>
                   <tr>
                     <td>Date of Registration</td>
-                    <td>01/24/1988</td>
+                    <td>{user.registerDate}</td>
                   </tr>
                   <tr>
                     <td>Gender</td>
-                    <td>Male</td>
+                    <td>{user.gender}</td>
                   </tr>
                   <tr>
                     <td>Email</td>
@@ -60,7 +60,11 @@ function Account() {
                   </tr>
                   <tr>
                     <td>Phone Number</td>
-                    <td>237-4567-890(Landline)</td>
+                    <td>{user.phoneNumber}</td>
+                  </tr>
+                  <tr>
+                    <td>Role</td>
+                    <td>{user.role}</td>
                   </tr>
                 </tbody>
               </table>

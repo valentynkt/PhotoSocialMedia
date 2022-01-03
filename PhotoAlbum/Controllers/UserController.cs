@@ -72,8 +72,8 @@ namespace PL.Controllers
 
             try
             {
-                await _userService.UpdateUser(userDto);
-                return new EmptyResult();
+                var response = await _userService.UpdateUser(userDto);
+                return Ok(response);
             }
             catch (Exception e)
             {

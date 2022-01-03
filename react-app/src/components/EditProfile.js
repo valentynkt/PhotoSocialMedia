@@ -1,7 +1,62 @@
-import React from "react";
+import React,{ useState } from "react";
 import User from "./User";
 function EditProfile() {
   let user = JSON.parse(localStorage.getItem("user"));
+  const [error, setError] = useState(null);
+  const [newUser, setNewUser] = useState({
+    firstName: user.firstName,
+    secondName: user.secondName,
+    about: user.about,
+    gender: user.gender,
+    email: user.email,
+    phone: user.phoneNumber,
+    password: "",
+    confirmPassword:""
+  });
+  const [registered, setRegistered] = useState(false);
+
+  const handleChangeFunc = (event) => {
+    const { name, value } = event.target
+
+    setNewUser((prevValue) => ({
+        ...prevValue,
+        [name]: value,
+    }))
+}
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    if (user.password!==user.confirmPassword) {
+      setError("Confirm password and password are different")
+    }
+    else{
+      const data = {
+        FirstName: user.firstName,
+        SecondName: user.secondName,
+        About: user.about,
+        Gender: user.gender,
+        Email: user.email,
+        PhoneNumber: user.phone,
+        Password: user.password,
+      };
+      try {
+        await axios.post("User/signup", data);
+        setRegistered(true);
+      } catch (err) {
+        if (err.response.status === 401 || err.response.status === 400) {
+          setError(err.response.data.message);
+        } else {
+          setError("something went wrong. Please try again");
+        }
+        console.log("error >>>", err);
+      }
+    } 
+  };
+  if (registered) {
+    return <Navigate to={"/login"} />;
+  }
+
   return (
     <User>
       <div className="auth-inner">

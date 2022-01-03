@@ -75,24 +75,26 @@ namespace BL.Services
             await _signInManager.SignOutAsync();
         }
 
-        public async Task UpdateUser(UserDTO newUserDto)
+        public async Task<AuthenticateResponse> UpdateUser(UserDTO newUserDto)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName == newUserDto.Email);
+            var user = await _userManager.Users.Include(x => x.ClientProfile).SingleOrDefaultAsync(u => u.UserName == newUserDto.Email);
             if (user is null)
             {
                 throw new UserException("User not found");
             }
 
-            if (newUserDto.FirstName!=null)
+            user.ClientProfile.FirstName = newUserDto.FirstName;
+            user.ClientProfile.SecondName = newUserDto.SecondName;
+            user.ClientProfile.About = newUserDto.About;
+            user.ClientProfile.Gender = newUserDto.Gender;
+            if (!string.IsNullOrEmpty(newUserDto.Password))
             {
-                user.ClientProfile.FirstName = newUserDto.FirstName;
+                user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, newUserDto.Password);
             }
-            if (newUserDto.SecondName != null)
-            {
-                user.ClientProfile.SecondName = newUserDto.SecondName;
-            }
-
             await _userManager.UpdateAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var token = GenerateJwt(user, roles);
+            return new AuthenticateResponse(user, token, roles.FirstOrDefault());
         }
 
         public async Task DeleteUserById(int id)
