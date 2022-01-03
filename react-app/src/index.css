@@ -68,3 +68,6 @@ body,html, .App,#root{
   display: flex;
   flex-grow: 2;
 }
+.updateBlockButtons{
+  width: 40% !important;
+}
