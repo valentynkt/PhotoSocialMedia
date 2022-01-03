@@ -11,5 +11,6 @@ namespace BL.Interfaces
     {
         Task<IEnumerable<CommentDTO>> GetImageComments(int id);
         Task<IEnumerable<ImageDTO>> GetImageByTitle(string title);
+        Task<IEnumerable<ImageDTO>> GetAllUsersPhotoAsync(int id);
     }
 }

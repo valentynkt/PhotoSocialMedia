@@ -3,7 +3,7 @@ import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import { ImageList, ImageListItem,ImageListItemBar } from "@material-ui/core";
 import InputPhotos from "./InputPhotos";
-const PhotoGallery = () => {
+const PhotoGallery = (props) => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [formData,setformData] = useState('');

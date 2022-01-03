@@ -33,7 +33,12 @@ namespace BL.Services
             var imagesModel = _mapper.Map<IEnumerable<ImageDTO>>(images);
             return imagesModel;
         }
-
+        public async Task<IEnumerable<ImageDTO>> GetAllUsersPhotoAsync(int id)
+        {
+            var images = await _unitOfWork.ImageRepository.FindByConditionAsync(x=>x.PersonId==id);
+            var imagesModel = _mapper.Map<IEnumerable<ImageDTO>>(images);
+            return imagesModel;
+        }
         public async Task<ImageDTO> GetByIdAsync(int id)
         {
             var imageById = await _unitOfWork.ImageRepository.GetByIdWithDetailsAsync(id);

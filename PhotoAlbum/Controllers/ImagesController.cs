@@ -125,5 +125,11 @@ namespace PL.Controllers
             }
         }
 
+        [HttpGet("userphotos/{id}")]
+        public async Task<IEnumerable<ImageDTO>> GetAllUsersPhoto(int id)
+        {
+            var images = await _imageService.GetAllUsersPhotoAsync(id);
+            return images;
+        }
     }
 }

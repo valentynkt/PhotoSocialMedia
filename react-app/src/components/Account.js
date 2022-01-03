@@ -2,16 +2,20 @@ import React, { Component } from "react";
 import { useNavigate } from "react-router-dom";
 import User from "./User";
 import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
 function Account() {
   let user = JSON.parse(localStorage.getItem("user"));
 
   const navigate = useNavigate();
 
-  const routeChange = () => {
+  const editRedirect = () => {
     let path = `edit`;
     navigate(path);
   };
-
+  const photoAlbumRedirect = () => {
+    let path = `photos`;
+    navigate(path);
+  };
   return (
     <User>
       <div className="auth-inner">
@@ -19,19 +23,26 @@ function Account() {
           <div className="col-md-3">
             <div className="profile-sidebar">
               <div className="profile-usertitle">
-                <h1 className="profile-usertitle-name">{user.firstName + " " + user.secondName}</h1>
+                <h1 className="profile-usertitle-name">
+                  {user.firstName + " " + user.secondName}
+                </h1>
               </div>
               <div class="about">
                 <h5>About</h5>
-                <p>
-                  {user.about}
-                </p>
+                <p>{user.about}</p>
               </div>
-              <div className="profile-userbuttons">
-                <Button onClick={routeChange} variant="contained">
+              <ButtonGroup
+                orientation="vertical"
+                aria-label="vertical contained button group"
+                variant="contained"
+              >
+                <Button onClick={editRedirect}>
                   Edit Profile
                 </Button>
-              </div>
+                <Button onClick={photoAlbumRedirect}>
+                 My Photo Album
+                </Button>
+              </ButtonGroup>
             </div>
           </div>
           <div className="col-md-9">
