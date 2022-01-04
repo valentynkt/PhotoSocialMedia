@@ -1,6 +1,6 @@
 import React from "react";
-import PhotoGallery from "./PhotoGallery";
-import User from "./User";
+import PhotoGallery from "../components/PhotoGallery";
+import User from "../components/User";
 const UserMain=() => {
  return(
  <User>

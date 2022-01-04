@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { useNavigate } from "react-router-dom";
-import User from "./User";
+import User from "../components/User";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { FormGroup } from "@mui/material";
@@ -62,6 +62,7 @@ function Account() {
                   orientation="vertical"
                   aria-label="vertical contained button group"
                   variant="contained"
+                  className="uploadPhileButtonGroup"
                 >
                   <Button component="label" variant="text" className="uploadedFileButton">
                     Upload File

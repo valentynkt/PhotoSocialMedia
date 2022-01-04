@@ -1,6 +1,6 @@
 import React from "react";
-import Guest from "./Guest";
-import PhotoGallery from "./PhotoGallery";
+import Guest from "../components/Guest";
+import PhotoGallery from "../components/PhotoGallery";
 const GuestMain=() => {
  return(
  <Guest>

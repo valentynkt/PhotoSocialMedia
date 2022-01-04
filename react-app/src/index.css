@@ -80,6 +80,9 @@ body,html, .App,#root{
 #uploadedFile,.uploadedFileButton{
   width: 100%;
 }
+.uploadPhileButtonGroup{
+  margin-top: 10px;
+}
 /* .profile-userbuttons{
 display: flex;
 justify-content: space-around;

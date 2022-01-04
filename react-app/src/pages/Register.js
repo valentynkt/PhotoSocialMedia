@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
-import Guest from "./Guest";
+import Guest from "../components/Guest";
 import { Alert } from "react-bootstrap";
 const Register = () => {
   const [error, setError] = useState(null);
