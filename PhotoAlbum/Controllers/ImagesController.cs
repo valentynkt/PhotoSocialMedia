@@ -77,14 +77,14 @@ namespace PL.Controllers
 
 
         [HttpPost("{email}")]
-        public async Task<IActionResult> Upload(IFormFile file,string email)
+        public async Task<IActionResult> Upload([FromForm]IFormFile formFile,string email)
         {
             try
             {
-                if (file != null && !string.IsNullOrEmpty(email))
+                if (formFile != null && !string.IsNullOrEmpty(email))
                 {
                     var user = await _userService.GetUserByEmail(email);
-                    ImageDTO imageDto = new ImageDTO(file,user.Id);
+                    ImageDTO imageDto = new ImageDTO(formFile, user.Id);
                     await _imageService.AddAsync(imageDto);
                     return CreatedAtAction(nameof(Upload), new { id = imageDto.Id }, imageDto);
                 }
@@ -129,6 +129,12 @@ namespace PL.Controllers
         public async Task<IEnumerable<ImageDTO>> GetAllUsersPhoto(int id)
         {
             var images = await _imageService.GetAllUsersPhotoAsync(id);
+            return images;
+        }
+        [HttpGet("userphotos/{id}/{title}")]
+        public async Task<IEnumerable<ImageDTO>> GetAllUsersPhotoByTitle(int id,string title)
+        {
+            var images = await _imageService.GetUserImageByTitle(id,title);
             return images;
         }
     }

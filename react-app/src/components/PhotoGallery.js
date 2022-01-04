@@ -10,15 +10,30 @@ const PhotoGallery = (props) => {
 
   const fetchData = async (input) => {
     setLoading(true);
-    if (!input) {
-      const response = await axios.get("Images");
-      const data = await response.data;
-      setPhotos(data);
+    if(props.userId){
+
+      if (!input) {
+        const response = await axios.get("Images/userphotos/"+props.userId);
+        const data = await response.data;
+        setPhotos(data);
+      }
+      else{
+        const response = await axios.get("Images/userphotos/"+props.userId+"/"+input);
+        const data = await response.data;
+        setPhotos(data);
+      }
     }
     else{
-      const response = await axios.get("Images/bytitle/"+input);
-      const data = await response.data;
-      setPhotos(data);
+      if (!input) {
+        const response = await axios.get("Images");
+        const data = await response.data;
+        setPhotos(data);
+      }
+      else{
+        const response = await axios.get("Images/bytitle/"+input);
+        const data = await response.data;
+        setPhotos(data);
+      }
     }
   };
 

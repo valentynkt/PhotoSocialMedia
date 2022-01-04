@@ -101,6 +101,13 @@ namespace BL.Services
             var imagesModel = _mapper.Map<IEnumerable<ImageDTO>>(imagesByTitle);
             return imagesModel;
         }
+        public async Task<IEnumerable<ImageDTO>> GetUserImageByTitle(int id,string title)
+        {
+            var images = await _unitOfWork.ImageRepository.GetAllAsync();
+            var imagesByTitle = images.Where(x => Contains(x.ImageTitle, title, StringComparison.InvariantCultureIgnoreCase) && x.PersonId==id).ToList();
+            var imagesModel = _mapper.Map<IEnumerable<ImageDTO>>(imagesByTitle);
+            return imagesModel;
+        }
         private bool Contains(string source, string value, StringComparison comparisonType)
         {
             return source?.IndexOf(value, comparisonType) >= 0;

@@ -71,6 +71,15 @@ body,html, .App,#root{
 .updateBlockButtons{
   width: 40% !important;
 }
+.accountFormGroup{
+  width: 70%;
+}
+#uploadedFileForm{
+  text-align: center;
+}
+#uploadedFile,.uploadedFileButton{
+  width: 100%;
+}
 /* .profile-userbuttons{
 display: flex;
 justify-content: space-around;
