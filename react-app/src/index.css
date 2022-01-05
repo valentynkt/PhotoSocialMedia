@@ -29,7 +29,7 @@ body,html, .App,#root{
   display: flex;
   justify-content: center;
   flex-direction: column;
-  text-align: left;
+  /* text-align: left; */
 }
 .auth-inner{
   margin: auto;

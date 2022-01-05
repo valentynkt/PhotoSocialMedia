@@ -18,8 +18,7 @@ namespace BL.DTO
         public string RegisterDate { get; set; }
         public string Token { get; set; }
 
-
-        public AuthenticateResponse(AppUser user, string token,string role)
+        public AuthenticateResponse(AppUser user, string role)
         {
             Id = user.Id;
             Email = user.Email;
@@ -30,6 +29,10 @@ namespace BL.DTO
             PhoneNumber = user.PhoneNumber;
             Role = role;
             RegisterDate = user.ClientProfile.DateOfRegistration.ToString("MM/dd/yyyy HH:mm:ss");
+        }
+
+        public AuthenticateResponse(AppUser user,string role, string token):this(user,role)
+        {
             Token = token;
         }
     }

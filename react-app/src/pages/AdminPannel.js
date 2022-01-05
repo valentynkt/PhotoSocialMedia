@@ -2,27 +2,55 @@ import React from "react";
 import Admin from "../components/Admin";
 import IconButton from "@material-ui/core/IconButton";
 import { Edit,ClearOutlined,AccountBox,PhotoLibrary } from "@material-ui/icons";
+import { useState,useEffect } from "react";
+import { CircularProgress } from "@mui/material";
+import axios from "axios";
 
 const AdminPannel = () => {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  
+  const fetchData = async () => {
+    setLoading(true);
+    const response = await axios.get("User");
+    const data = await response.data;
+    setUsers(data);
+};
+
+useEffect(() => {
+(async () => {
+  await fetchData();
+  console.log("In useEffect: "+users);
+  setLoading(false);
+})()
+
+return () => {
+    console.log("Returned: "+users);
+}
+}, [])
+if (loading) return <CircularProgress size={120} />;
+else
   return (
     <Admin>
-      <div class="auth-inner">
-        <div class="table-title">
-          <div class="row">
-            <div class="col-xs-5">
+      <div className="auth-inner">
+        <div className="table-wrapper">
+        <div className="table-title">
+          <div className="row">
+            <div className="col-xs-5">
               <h2>
                 User <b>Management</b>
               </h2>
             </div>
-            <div class="col-xs-7">
-              <a href="#" class="btn btn-primary">
-                <i class="material-icons">&#xE147;</i> <span>Add New User</span>
+            <div className="col-xs-7">
+              <a href="#" className="btn btn-primary">
+                <i className="material-icons">&#xE147;</i> <span>Add New User</span>
               </a>
             </div>
           </div>
         </div>
-        <table class="table table-striped table-hover">
-          <thead>
+        <table className="table table-striped table-hover">
+        <thead>
             <tr>
               <th>#</th>
               <th>Name</th>
@@ -32,54 +60,38 @@ const AdminPannel = () => {
               <th>Action</th>
             </tr>
           </thead>
+
+          {users.map((user)=>(
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>
-                <a href="#">Valentyn valentyn</a>
-              </td>
-              <td>04/10/2013 sdads</td>
-              <td>valikit15@gmail.com</td>
-              <td>Admin</td>
-              <td>
-              <IconButton color="primary">
-        <Edit />
-      </IconButton>
-      <IconButton color="secondary">
-        <ClearOutlined />
-      </IconButton>
-      <IconButton color="primary">
-        <AccountBox />
-      </IconButton>
-      <IconButton color="primary">
-        <PhotoLibrary />
-      </IconButton>
-              </td>
-            </tr>
-            <tr>
-              <td>1</td>
-              <td>
-                <a href="#">Valentyn valentyn</a>
-              </td>
-              <td>04/10/2013 sdads</td>
-              <td>valikit15@gmail.com</td>
-              <td>Admin</td>
-              <td>
-                <a
-                  href="#"
-                  class="settings"
-                  title="Settings"
-                  data-toggle="tooltip"
-                >
-                  <i class="material-icons">&#xE8B8;</i>
-                </a>
-                <a href="#" class="delete" title="Delete" data-toggle="tooltip">
-                  <i class="material-icons">&#xE5C9;</i>
-                </a>
-              </td>
-            </tr>
-          </tbody>
+          <tr>
+            <td>{user.id}</td>
+            <td>
+              <a href="#">{user.firstName + " " + user.secondName}</a>
+            </td>
+            <td>{user.registerDate}</td>
+            <td>{user.email}</td>
+            <td>{user.role}</td>
+            <td>
+            <IconButton color="primary">
+      <Edit />
+    </IconButton>
+    <IconButton color="secondary">
+      <ClearOutlined />
+    </IconButton>
+    <IconButton color="primary">
+      <AccountBox />
+    </IconButton>
+    <IconButton color="primary">
+      <PhotoLibrary />
+    </IconButton>
+            </td>
+          </tr>
+        </tbody>
+  ))}
+         
+
         </table>
+        </div>
       </div>
     </Admin>
   );

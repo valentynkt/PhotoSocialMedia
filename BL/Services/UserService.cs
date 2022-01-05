@@ -119,10 +119,16 @@ namespace BL.Services
             await _userManager.DeleteAsync(user);
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllUsers()
+        public async Task<IEnumerable<AuthenticateResponse>> GetAllUsers()
         {
             var users = await _userManager.Users.Include(x => x.ClientProfile).ToListAsync();
-            var userListDto = _mapper.Map<IEnumerable<UserDTO>>(users);
+            var userListDto = new List<AuthenticateResponse>();
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                var userDto = new AuthenticateResponse(user, roles.FirstOrDefault());
+                userListDto.Add(userDto);
+            }
             return userListDto;
         }
 

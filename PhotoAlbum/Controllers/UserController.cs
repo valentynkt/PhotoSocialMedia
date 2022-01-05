@@ -25,7 +25,7 @@ namespace PL.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<UserDTO>> GetAllUsers()
+        public async Task<IEnumerable<AuthenticateResponse>> GetAllUsers()
         {
             try
             {
