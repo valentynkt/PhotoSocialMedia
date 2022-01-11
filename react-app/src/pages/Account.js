@@ -6,6 +6,7 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import { FormGroup } from "@mui/material";
 import axios from "axios";
 import { useState } from "react";
+import UserInfoComponent from "../components/UserInfoComponent";
 function Account() {
   let user = JSON.parse(localStorage.getItem("user"));
   const [file,setFile] = useState(null);
@@ -37,50 +38,7 @@ function Account() {
   return (
     <User>
       <div className="auth-inner">
-        <div className="row profile">
-
-              <div className="profile-usertitle">
-                <h1 className="profile-usertitle-name">
-                  {user.firstName + " " + user.secondName}
-                </h1>
-              </div>
-              <div className="about">
-                <h5>About</h5>
-                <p>{user.about}</p>
-              </div>
-            <div className="profile-content">
-              <div className="row">
-                <div className="col-md-12">
-                  <h4>Profile Info</h4>
-                  <br />
-                </div>
-              </div>
-              <table className="table table-user-information">
-                <tbody>
-                  <tr>
-                    <td>Date of Registration</td>
-                    <td>{user.registerDate}</td>
-                  </tr>
-                  <tr>
-                    <td>Gender</td>
-                    <td>{user.gender}</td>
-                  </tr>
-                  <tr>
-                    <td>Email</td>
-                    <td>
-                      <a href={"mailto:" + user.email}>{user.email}</a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Phone Number</td>
-                    <td>{user.phoneNumber}</td>
-                  </tr>
-                  <tr>
-                    <td>Role</td>
-                    <td>{user.role}</td>
-                  </tr>
-                </tbody>
-              </table>
+      <UserInfoComponent user={user}/>
               <FormGroup className="accountFormGroup">
                 <ButtonGroup
                   orientation="vertical"
@@ -103,8 +61,7 @@ function Account() {
                   <Button onClick={uploadPhoto}>Send Photo</Button>
                 </ButtonGroup>
               </FormGroup>
-            </div>
-        </div>
+           
       </div>
     </User>
   );

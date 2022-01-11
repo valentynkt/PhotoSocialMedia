@@ -3,14 +3,6 @@ import { useState,useEffect } from "react";
 import axios from "axios";
 
 const UserInfoComponent = (props) => {
-    const [user,setUser] = useState(null);
-    useEffect(() => {
-        setLoading(true)
-      axios.get(`User/${id}`)
-      .then(res=>setUser(res.data))
-      .catch(err=>setError(err));
-      setLoading(false)
-      }, [id])
     return (
         <div className="row profile">
         <div className="profile-usertitle">
@@ -20,32 +12,32 @@ const UserInfoComponent = (props) => {
         </div>
         <div className="about">
           <h5>About</h5>
-          <p>{user.about}</p>
+          <p>{props.user.about}</p>
         </div>
         <h4>Profile Info</h4>
         <table className="table table-user-information">
           <tbody>
             <tr>
               <td>Date of Registration</td>
-              <td>{user.registerDate}</td>
+              <td>{props.user.registerDate}</td>
             </tr>
             <tr>
               <td>Gender</td>
-              <td>{user.gender}</td>
+              <td>{props.user.gender}</td>
             </tr>
             <tr>
               <td>Email</td>
               <td>
-                <a href={"mailto:" + user.email}>{user.email}</a>
+                <a href={"mailto:" + props.user.email}>{props.user.email}</a>
               </td>
             </tr>
             <tr>
               <td>Phone Number</td>
-              <td>{user.phoneNumber}</td>
+              <td>{props.user.phoneNumber}</td>
             </tr>
             <tr>
               <td>Role</td>
-              <td>{user.role}</td>
+              <td>{props.user.role}</td>
             </tr>
           </tbody>
         </table>
