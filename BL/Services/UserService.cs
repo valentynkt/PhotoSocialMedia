@@ -64,7 +64,7 @@ namespace BL.Services
             {
                 var roles = await _userManager.GetRolesAsync(user);
                 var token = GenerateJwt(user, roles);
-                return new AuthenticateResponse(user,token,roles.FirstOrDefault());
+                return new AuthenticateResponse(user,roles.FirstOrDefault(), token);
             }
 
             throw new UserException("Email or password incorrect.");
@@ -132,26 +132,26 @@ namespace BL.Services
             return userListDto;
         }
 
-        public async Task<UserDTO> GetUserByEmail(string email)
+        public async Task<AuthenticateResponse> GetUserByEmail(string email)
         {
             var user = await _userManager.Users.Include(x => x.ClientProfile).SingleOrDefaultAsync(u => u.UserName == email);
             if (user is null)
             {
                 throw new UserException("User not found");
             }
-
-            var userDto = _mapper.Map<UserDTO>(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var userDto = new AuthenticateResponse(user, roles.FirstOrDefault());
             return userDto;
         }
-        public async Task<UserDTO> GetUserById(int id)
+        public async Task<AuthenticateResponse> GetUserById(int id)
         {
             var user = await _userManager.Users.Include(x => x.ClientProfile).SingleOrDefaultAsync(u => u.Id==id);
             if (user is null)
             {
                 throw new UserException("User not found");
             }
-
-            var userDto = _mapper.Map<UserDTO>(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var userDto = new AuthenticateResponse(user, roles.FirstOrDefault());
             return userDto;
         }
 

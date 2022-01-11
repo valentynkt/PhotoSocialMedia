@@ -31,6 +31,10 @@ body,html, .App,#root{
   flex-direction: column;
   /* text-align: left; */
 }
+.profile-content{
+  align-items: center;
+  justify-content: center;
+}
 .auth-inner{
   margin: auto;
   background: #ffffff;

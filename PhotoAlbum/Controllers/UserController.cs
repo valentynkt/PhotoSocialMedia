@@ -37,7 +37,7 @@ namespace PL.Controllers
             }
         }
         [HttpGet("{id}")]
-        public async Task<UserDTO> GetUserById(int id)
+        public async Task<AuthenticateResponse> GetUserById(int id)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace PL.Controllers
         }
 
         [HttpGet("byemail/{email}")]
-        public async Task<UserDTO> GetUserByEmail(string email)
+        public async Task<AuthenticateResponse> GetUserByEmail(string email)
         {
             try
             {

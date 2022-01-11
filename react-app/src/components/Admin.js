@@ -21,7 +21,7 @@ const Admin = ({ children }) => {
                 <NavLink className="nav-link" to={"/"} onClick={handleLogout}>
                   Logout
                 </NavLink>
-                <NavLink className="nav-link" to={"/admin/pannel"}>
+                <NavLink className="nav-link" to={"/admin/users"}>
                   Admin
                 </NavLink>
               </Stack>

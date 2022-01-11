@@ -13,8 +13,9 @@ import GuestMain from "./pages/GuestMain";
 import Main from "./pages/Main";
 import EditProfile from "./pages/EditProfile";
 import UserPhotos from "./pages/UserPhotos";
-import AdminPannel from "./pages/AdminPannel";
+import UserManagement from "./pages/UserManagement";
 import AdminMain from "./pages/AdminMain";
+import AdminUserInfo from "./pages/AdminUserInfo";
 function App() {
   return (
     <BrowserRouter>
@@ -29,7 +30,8 @@ function App() {
           <Route path="/user/account" element={<Account />} />
           <Route path="/user/account/photos" element={<UserPhotos />} />
           <Route path="/user/account/edit" element={<EditProfile />} />
-          <Route path="/admin/pannel" element={<AdminPannel />} />
+          <Route path="/admin/users" element={<UserManagement />} />
+          <Route path="/admin/users/:id" element={<AdminUserInfo/>} />
         </Routes>
       </div>
     </BrowserRouter>

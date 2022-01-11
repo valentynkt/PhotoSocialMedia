@@ -38,8 +38,7 @@ function Account() {
     <User>
       <div className="auth-inner">
         <div className="row profile">
-          <div className="col-md-3">
-            <div className="profile-sidebar">
+
               <div className="profile-usertitle">
                 <h1 className="profile-usertitle-name">
                   {user.firstName + " " + user.secondName}
@@ -49,35 +48,10 @@ function Account() {
                 <h5>About</h5>
                 <p>{user.about}</p>
               </div>
-              <FormGroup className="accountFormGroup">
-                <ButtonGroup
-                  orientation="vertical"
-                  aria-label="vertical contained button group"
-                  variant="contained"
-                >
-                  <Button onClick={editRedirect}>Edit Profile</Button>
-                  <Button onClick={photoAlbumRedirect}>My Photo Album</Button>
-                </ButtonGroup>
-                <ButtonGroup
-                  orientation="vertical"
-                  aria-label="vertical contained button group"
-                  variant="contained"
-                  className="uploadPhileButtonGroup"
-                >
-                  <Button component="label" variant="text" className="uploadedFileButton">
-                    Upload File
-                    <input type="file" id="uploadedFile" hidden onChange={handleFile}/>
-                  </Button>
-                  <Button onClick={uploadPhoto}>Send Photo</Button>
-                </ButtonGroup>
-              </FormGroup>
-            </div>
-          </div>
-          <div className="col-md-9">
             <div className="profile-content">
               <div className="row">
                 <div className="col-md-12">
-                  <h4>Your Profile</h4>
+                  <h4>Profile Info</h4>
                   <br />
                 </div>
               </div>
@@ -107,8 +81,29 @@ function Account() {
                   </tr>
                 </tbody>
               </table>
+              <FormGroup className="accountFormGroup">
+                <ButtonGroup
+                  orientation="vertical"
+                  aria-label="vertical contained button group"
+                  variant="contained"
+                >
+                  <Button onClick={editRedirect}>Edit Profile</Button>
+                  <Button onClick={photoAlbumRedirect}>My Photo Album</Button>
+                </ButtonGroup>
+                <ButtonGroup
+                  orientation="vertical"
+                  aria-label="vertical contained button group"
+                  variant="contained"
+                  className="uploadPhileButtonGroup"
+                >
+                  <Button component="label" variant="text" className="uploadedFileButton">
+                    Upload File
+                    <input type="file" id="uploadedFile" hidden onChange={handleFile}/>
+                  </Button>
+                  <Button onClick={uploadPhoto}>Send Photo</Button>
+                </ButtonGroup>
+              </FormGroup>
             </div>
-          </div>
         </div>
       </div>
     </User>
