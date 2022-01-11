@@ -92,14 +92,16 @@ const UserManagement = () => {
                       <IconButton color="secondary" onClick={()=>deleteUser(user.id)}>
                         <ClearOutlined />
                       </IconButton>
-                      <Link color="primary" to={"/admin/users/" + user.id}>
+                      <Link color="primary" to={`/admin/users/${user.id}`}>
                         <IconButton color="primary">
                           <AccountBox />
                         </IconButton>
                       </Link>
+                      <Link color="primary" to={`/admin/users/${user.id}/photos`}>
                       <IconButton color="primary">
                         <PhotoLibrary />
                       </IconButton>
+                      </Link>
                     </td>
                   </tr>
                 </tbody>
