@@ -16,6 +16,7 @@ import UserPhotos from "./pages/UserPhotos";
 import UserManagement from "./pages/UserManagement";
 import AdminMain from "./pages/AdminMain";
 import AdminUserInfo from "./pages/AdminUserInfo";
+import AdminEditUser from "./pages/AdminEditUser";
 function App() {
   return (
     <BrowserRouter>
@@ -32,6 +33,7 @@ function App() {
           <Route path="/user/account/edit" element={<EditProfile />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/users/:id" element={<AdminUserInfo/>} />
+          <Route path="/admin/users/:id/edit" element={<AdminEditUser/>} />
         </Routes>
       </div>
     </BrowserRouter>

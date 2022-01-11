@@ -75,8 +75,13 @@ body,html, .App,#root{
 .updateBlockButtons{
   width: 40% !important;
 }
+.accountFormGroupContainer{
+display: flex;
+align-items: center;
+justify-content: center;
+}
 .accountFormGroup{
-  width: 70%;
+  width: 50%;
 }
 #uploadedFileForm{
   text-align: center;

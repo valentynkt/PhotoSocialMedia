@@ -8,6 +8,7 @@ import UserInfoComponent from "../components/UserInfoComponent";
 function AdminUserInfo() {
   const {id} = useParams();
   const [user,setUser] = useState(null);
+
   const [loading, setLoading] = useState(true);
   const [error,setError]=useState("");
   useEffect(() => {

@@ -9,7 +9,7 @@ import { useState } from "react";
 import UserInfoComponent from "../components/UserInfoComponent";
 function Account() {
   let user = JSON.parse(localStorage.getItem("user"));
-  const [file,setFile] = useState(null);
+  const [file, setFile] = useState(null);
 
   const navigate = useNavigate();
 
@@ -21,47 +21,57 @@ function Account() {
     let path = `photos`;
     navigate(path);
   };
-  const uploadPhoto=async (e)=>{
+  const uploadPhoto = async (e) => {
     e.preventDefault();
     try {
       const data = new FormData();
       data.append("formFile", file);
-      const response= await axios.post("Images/"+user.email,data);
+      const response = await axios.post("Images/" + user.email, data);
       photoAlbumRedirect();
     } catch (error) {
       console.log(error);
     }
-  }
-  const handleFile=(e)=>{
+  };
+  const handleFile = (e) => {
     setFile(e.target.files[0]);
-  }
+  };
   return (
     <User>
       <div className="auth-inner">
-      <UserInfoComponent user={user}/>
-              <FormGroup className="accountFormGroup">
-                <ButtonGroup
-                  orientation="vertical"
-                  aria-label="vertical contained button group"
-                  variant="contained"
-                >
-                  <Button onClick={editRedirect}>Edit Profile</Button>
-                  <Button onClick={photoAlbumRedirect}>My Photo Album</Button>
-                </ButtonGroup>
-                <ButtonGroup
-                  orientation="vertical"
-                  aria-label="vertical contained button group"
-                  variant="contained"
-                  className="uploadPhileButtonGroup"
-                >
-                  <Button component="label" variant="text" className="uploadedFileButton">
-                    Upload File
-                    <input type="file" id="uploadedFile" hidden onChange={handleFile}/>
-                  </Button>
-                  <Button onClick={uploadPhoto}>Send Photo</Button>
-                </ButtonGroup>
-              </FormGroup>
-           
+        <UserInfoComponent user={user} />
+        <div className="accountFormGroupContainer">
+          <FormGroup className="accountFormGroup">
+            <ButtonGroup
+              orientation="vertical"
+              aria-label="vertical contained button group"
+              variant="contained"
+            >
+              <Button onClick={editRedirect}>Edit Profile</Button>
+              <Button onClick={photoAlbumRedirect}>My Photo Album</Button>
+            </ButtonGroup>
+            <ButtonGroup
+              orientation="vertical"
+              aria-label="vertical contained button group"
+              variant="contained"
+              className="uploadPhileButtonGroup"
+            >
+              <Button
+                component="label"
+                variant="text"
+                className="uploadedFileButton"
+              >
+                Upload File
+                <input
+                  type="file"
+                  id="uploadedFile"
+                  hidden
+                  onChange={handleFile}
+                />
+              </Button>
+              <Button onClick={uploadPhoto}>Send Photo</Button>
+            </ButtonGroup>
+          </FormGroup>
+        </div>
       </div>
     </User>
   );

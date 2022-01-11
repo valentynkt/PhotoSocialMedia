@@ -75,15 +75,17 @@ const UserManagement = () => {
                   <tr>
                     <td>{user.id}</td>
                     <td>
-                      <a href="#">{user.firstName + " " + user.secondName}</a>
+                    <Link color="primary" to={"/admin/users/"+user.id}>{user.firstName + " " + user.secondName}</Link>
                     </td>
                     <td>{user.registerDate}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
                     <td>
+                    <Link color="primary" to={`/admin/users/${user.id}/edit`}>
                       <IconButton color="primary">
                         <Edit />
                       </IconButton>
+                      </Link>
                       <IconButton color="secondary">
                         <ClearOutlined />
                       </IconButton>
