@@ -17,6 +17,7 @@ import UserManagement from "./pages/UserManagement";
 import AdminMain from "./pages/AdminMain";
 import AdminUserInfo from "./pages/AdminUserInfo";
 import AdminEditUser from "./pages/AdminEditUser";
+import CreateUser from "./pages/CreateUser";
 function App() {
   return (
     <BrowserRouter>
@@ -34,6 +35,7 @@ function App() {
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/users/:id" element={<AdminUserInfo/>} />
           <Route path="/admin/users/:id/edit" element={<AdminEditUser/>} />
+          <Route path="/admin/users/create" element={<CreateUser/>} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -23,9 +23,10 @@ const UserManagement = () => {
     const data = await response.data;
     setUsers(data);
   };
-  const UserInfoHandler = () => {
-    console.log("User id: ");
-  };
+  const deleteUser=(id)=>{
+    axios.delete(`User/${id}`);
+    window.location.reload();
+  }
   useEffect(() => {
     (async () => {
       await fetchData();
@@ -51,11 +52,11 @@ const UserManagement = () => {
                   </h2>
                 </div>
                 <div className="col-xs-7">
-                  <a href="#" className="btn btn-primary">
+                <Link color="primary" className="btn btn-primary"to={`/admin/users/create`}>
                     <i className="material-icons">&#xE147;</i>{" "}
                     <span>Add New User</span>
-                  </a>
-                </div>    
+                  </Link>
+                </div>
               </div>
             </div>
             <table className="table table-striped table-hover">
@@ -75,21 +76,23 @@ const UserManagement = () => {
                   <tr>
                     <td>{user.id}</td>
                     <td>
-                    <Link color="primary" to={"/admin/users/"+user.id}>{user.firstName + " " + user.secondName}</Link>
+                      <Link color="primary" to={"/admin/users/" + user.id}>
+                        {user.firstName + " " + user.secondName}
+                      </Link>
                     </td>
                     <td>{user.registerDate}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
                     <td>
-                    <Link color="primary" to={`/admin/users/${user.id}/edit`}>
-                      <IconButton color="primary">
-                        <Edit />
-                      </IconButton>
+                      <Link color="primary" to={`/admin/users/${user.id}/edit`}>
+                        <IconButton color="primary">
+                          <Edit />
+                        </IconButton>
                       </Link>
-                      <IconButton color="secondary">
+                      <IconButton color="secondary" onClick={()=>deleteUser(user.id)}>
                         <ClearOutlined />
                       </IconButton>
-                      <Link color="primary" to={"/admin/users/"+user.id}>
+                      <Link color="primary" to={"/admin/users/" + user.id}>
                         <IconButton color="primary">
                           <AccountBox />
                         </IconButton>
