@@ -43,7 +43,7 @@ const Login=(props)=> {
        }
      };
      if (redirect) {
-      return <Navigate to={'/user'}/>
+      return <Navigate to={'/'}/>
     }
     return(
 <Guest>

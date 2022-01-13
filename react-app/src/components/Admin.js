@@ -11,7 +11,7 @@ const Admin = ({ children }) => {
   return (
     <>
       <Navigation>
-        <NavLink className="navbar-brand" to={"/user"}>
+        <NavLink className="navbar-brand" to={"/admin"}>
           Home
         </NavLink>
         <div className="collapse navbar-collapse">

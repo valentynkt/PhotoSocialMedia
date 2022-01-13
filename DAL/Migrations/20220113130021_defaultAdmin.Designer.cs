@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220113130021_defaultAdmin")]
+    partial class defaultAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,14 +53,14 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "c4ae48d8-a4f7-4d93-9c17-65855f4d3a5d",
+                            ConcurrencyStamp = "c09d42c9-d592-4377-b842-8afe9870f6ce",
                             Name = "user",
                             NormalizedName = "USER"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "a5e33622-181d-496b-9fc0-719c54374991",
+                            ConcurrencyStamp = "d5e64f79-b0ed-44bc-8d3b-a859c0099087",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -135,14 +137,13 @@ namespace DAL.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b9b4139b-3f72-4c72-9eb2-b148893763f8",
+                            ConcurrencyStamp = "736ae281-9332-4c19-a80a-43b9c398a4a4",
                             Email = "valikit14@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "valikit14@gmail.com",
                             NormalizedUserName = "valikit14@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF0fVTqS6HsUDuqv9uE1xwyjPjZhcbMeEplZv8MHqNZqhYO2aGN2P0lgWvQorvWhmA==",
-                            PhoneNumber = "0989081789",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPnRRXwX9o24P7q2/0gwiTk4kNEkjtHU+7yLOP1swlX6yG/dGasTA4xzR4SGHs8Amg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -179,7 +180,7 @@ namespace DAL.Migrations
                         {
                             Id = 1,
                             About = "I'm Admin",
-                            DateOfRegistration = new DateTime(2022, 1, 13, 15, 12, 4, 554, DateTimeKind.Local).AddTicks(5048),
+                            DateOfRegistration = new DateTime(2022, 1, 13, 15, 0, 20, 854, DateTimeKind.Local).AddTicks(8371),
                             FirstName = "Valentyn",
                             Gender = "male",
                             SecondName = "Kit"

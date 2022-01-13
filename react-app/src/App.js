@@ -19,6 +19,8 @@ import AdminUserInfo from "./pages/AdminUserInfo";
 import AdminEditUser from "./pages/AdminEditUser";
 import CreateUser from "./pages/CreateUser";
 import AdminUserPhotos from "./pages/AdminUserPhotos";
+import UserPhotoDetails from "./pages/UserPhotoDetail";
+import AdminPhotoDetails from "./pages/AdminPhotoDetails";
 function App() {
   return (
     <BrowserRouter>
@@ -33,6 +35,8 @@ function App() {
           <Route path="/user/account" element={<Account />} />
           <Route path="/user/account/photos" element={<UserPhotos />} />
           <Route path="/user/account/edit" element={<EditProfile />} />
+          <Route path="/user/photos/:id" element={<UserPhotoDetails />} />
+          <Route path="/admin/photos/:id" element={<AdminPhotoDetails />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/users/:id" element={<AdminUserInfo/>} />
           <Route path="/admin/users/:id/edit" element={<AdminEditUser/>} />
