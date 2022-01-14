@@ -100,29 +100,15 @@ namespace PL.Controllers
         [HttpGet("bytitle/{title}")]
         public async Task<IEnumerable<ImageDTO>> GetImageByTitle(string title)
         {
-            try
-            {
-                var images = await _imageService.GetImageByTitle(title);
+            var images = await _imageService.GetImageByTitle(title);
                 return images;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
         }
 
         [HttpGet("{id}/comments")]
         public async Task<IEnumerable<CommentDTO>> GetImageComments(int id)
         {
-            try
-            {
-               var images = await _imageService.GetImageComments(id);
+            var images = await _imageService.GetImageComments(id);
                return images;
-            }
-            catch (Exception e)
-            {
-                return null;
-            }
         }
 
         [HttpGet("userphotos/{id}")]

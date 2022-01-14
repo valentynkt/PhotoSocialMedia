@@ -27,7 +27,8 @@ namespace BL.Services
         private readonly JwtSettings _jwtSettings;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IUnitOfWork _unitOfWork;
-        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager,IUnitOfWork unitOfWork)
+        private readonly IImageService _imageService;
+        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager,IUnitOfWork unitOfWork,IImageService imageService)
         {
             _mapper = mapper;
             _userManager = userManager;
@@ -35,6 +36,7 @@ namespace BL.Services
             _signInManager = signInManager;
             _jwtSettings = jwtSettings.Value;
             _unitOfWork = unitOfWork;
+            _imageService = imageService;
         }
 
         public async Task<bool> SignUp(UserDTO userDto)
@@ -105,6 +107,11 @@ namespace BL.Services
                 throw new UserException("User not found");
             }
 
+            var images=await _imageService.GetAllUsersPhotoAsync(user.Id);
+            foreach (var image in images)
+            {
+                await _imageService.DeleteByIdAsync(image.Id);
+            }
             await _userManager.DeleteAsync(user);
         }
 

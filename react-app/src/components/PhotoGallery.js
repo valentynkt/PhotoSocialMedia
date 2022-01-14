@@ -53,11 +53,6 @@ const PhotoGallery = (props) => {
     fetchData(formData);
     setLoading(false);
   };
-  const findUserById = async (id) => {
-    const response = await axios.get("User/" + id);
-    const user = await response.data;
-    return user;
-  };
   useEffect(() => {
     (async () => {
       await fetchData();

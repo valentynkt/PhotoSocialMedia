@@ -33,7 +33,7 @@ const User = ({ children }) => {
         </div>
       </Navigation>
       <div className="auth-wrapper">
-        <div>{children}</div>
+        <div className="someWrapper">{children}</div>
       </div>
     </>
   );

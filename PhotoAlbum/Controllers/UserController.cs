@@ -27,15 +27,8 @@ namespace PL.Controllers
         [HttpGet]
         public async Task<IEnumerable<AuthenticateResponse>> GetAllUsers()
         {
-            try
-            {
-                return await _userService.GetAllUsers();
+            return await _userService.GetAllUsers();
             }
-            catch (Exception e)
-            {
-                return null;
-            }
-        }
         [HttpGet("{id}")]
         public async Task<AuthenticateResponse> GetUserById(int id)
         {
@@ -43,7 +36,7 @@ namespace PL.Controllers
             {
                 return await _userService.GetUserById(id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -56,7 +49,7 @@ namespace PL.Controllers
             {
                 return await _userService.GetUserByEmail(email);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -199,7 +192,7 @@ namespace PL.Controllers
             {
                 return await _userService.GetUserImages(email);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -211,7 +204,7 @@ namespace PL.Controllers
             {
                 return await _userService.GetUserComments(email);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
