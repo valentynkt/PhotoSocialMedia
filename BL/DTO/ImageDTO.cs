@@ -13,7 +13,7 @@ namespace BL.DTO
         public byte[] ImageData { get; set; }
         public int? PersonId { get; set; }
         public string Email { get; set; }
-        public DateTime PublishedTime { get; set; }
+        public string PublishedTime { get; set; }
 
         public ImageDTO()
         {
@@ -23,7 +23,7 @@ namespace BL.DTO
         public ImageDTO(IFormFile file,int? personId)
         {
             ImageTitle = file.FileName;
-            PublishedTime = DateTime.Now;
+            PublishedTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
             byte[] imageData = null;
             using (var binaryReader = new BinaryReader(file.OpenReadStream()))
             {

@@ -22,7 +22,9 @@ namespace BL
                 .ForMember(u=>u.Gender,c=>c.MapFrom(user=>user.ClientProfile.Gender))
                 .ForMember(u=>u.DateOfRegistration,c=>c.MapFrom(user=>user.ClientProfile.DateOfRegistration))
                 .ReverseMap();
-            CreateMap<Image, ImageDTO>().ReverseMap();
+            CreateMap<Image, ImageDTO>()
+                .ForMember(u=>u.PublishedTime,opt=>opt.MapFrom(c=>c.PublishedTime.ToString("MM/dd/yyyy HH:mm:ss")))
+                .ReverseMap();
             CreateMap<Comment, CommentDTO>().ReverseMap();
         }
     }
