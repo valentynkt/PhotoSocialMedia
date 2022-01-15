@@ -11,15 +11,12 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
 
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 const PhotoDetails = () => {
   const { id } = useParams();
-  const [error, setError] = useState("");
   const [photo, setPhoto] = useState({
     image: null,
     user: null,

@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
 import Guest from "../components/Guest";
@@ -46,11 +46,7 @@ const Register = () => {
         await axios.post("User/signup", data);
         setRegistered(true);
       } catch (err) {
-        if (err.response.status === 401 || err.response.status === 400) {
-          setError(err.response.data.message);
-        } else {
-          setError("something went wrong. Please try again");
-        }
+          setError("This email is already taken");
         console.log("error >>>", err);
       }
     } 
@@ -64,45 +60,45 @@ const Register = () => {
         <form onSubmit={handleSubmit}>
           <h3>Register</h3>
 
-          <div class="card-body">
-                <div class="row gutters">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h6 class="mb-2 text-primary">Personal Details</h6>
+          <div className="card-body">
+                <div className="row gutters">
+                  <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 className="mb-2 text-primary">Personal Details</h6>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="firstName">First Name</label>
+                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div className="form-group">
+                      <label htmlFor="firstName">First Name</label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="firstName"
                         placeholder="Enter first name"
                         name="firstName"
-                        required minlength="3"
+                        required minLength="3"
                         onChange={handleChangeFunc}
                       />
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="lastName">Last Name</label>
+                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div className="form-group">
+                      <label htmlFor="lastName">Last Name</label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="lastName"
                         placeholder="Enter last name"
                         name="secondName"
-                        required minlength="3"
+                        required minLength="3"
                         onChange={handleChangeFunc}
                       />
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="eMail">Email</label>
+                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div className="form-group">
+                      <label htmlFor="eMail">Email</label>
                       <input
                         type="email"
-                        class="form-control"
+                        className="form-control"
                         id="eMail"
                         placeholder="Enter email"
                         name="email"
@@ -111,12 +107,12 @@ const Register = () => {
                       />
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="phone">Phone</label>
+                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div className="form-group">
+                      <label htmlFor="phone">Phone</label>
                       <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         id="phone"
                         placeholder="Enter phone number"
                         name="phone"
@@ -125,11 +121,11 @@ const Register = () => {
                       />
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="about">About</label>
+                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div className="form-group">
+                      <label htmlFor="about">About</label>
                       <textarea
-                        class="form-control"
+                        className="form-control"
                         id="about"
                         placeholder="Write About Yourself"
                         name="about"
@@ -138,10 +134,10 @@ const Register = () => {
                       ></textarea>
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="gender">Gender</label>
-                      <select class="form-select  mb-3" name="gender"  onChange={handleChangeFunc}>
+                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div className="form-group">
+                      <label htmlFor="gender">Gender</label>
+                      <select className="form-select  mb-3" name="gender"  onChange={handleChangeFunc}>
                         <option defaultValue value="male">
                           Male
                         </option>
@@ -150,16 +146,16 @@ const Register = () => {
                     </div>
                   </div>
                 </div>
-                <div class="row gutters">
-                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <h6 class="mt-3 mb-2 text-primary">Password</h6>
+                <div className="row gutters">
+                  <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <h6 className="mt-3 mb-2 text-primary">Password</h6>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="Password">Password</label>
+                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div className="form-group">
+                      <label htmlFor="Password">Password</label>
                       <input
                         type="password"
-                        class="form-control"
+                        className="form-control"
                         id="Password"
                         placeholder="Enter Password"
                         name="password"
@@ -168,12 +164,12 @@ const Register = () => {
                       />
                     </div>
                   </div>
-                  <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-group">
-                      <label for="ConfirmPassword">Confirm Password</label>
+                  <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <div className="form-group">
+                      <label htmlFor="ConfirmPassword">Confirm Password</label>
                       <input
                         type="password"
-                        class="form-control"
+                        className="form-control"
                         id="ConfirmPassword"
                         placeholder="Confirm Password"
                         name="confirmPassword"

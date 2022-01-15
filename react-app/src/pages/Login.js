@@ -33,13 +33,7 @@ const Login=(props)=> {
         console.log("response >>>",response);
        } catch (err) {
         setLoading(false);
-        if (err.response.status === 401 || err.response.status === 400) {
-          setError(err.response.data.message);
-        }
-        else{
-          setError("something went wrong. Please try again");
-        }
-        console.log("error >>>",err);
+          setError("Wrong Email or Password");
        }
      };
      if (redirect) {
