@@ -29,9 +29,9 @@ namespace PL.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CommentDTO>> GetAll()
+        public async Task<IEnumerable<CommentsDisplayDTO>> GetAll()
         {
-            return await _commentService.GetAllAsync();
+            return await _commentService.GetAllWithDetailsAsync();
         }
 
         [HttpGet("{id}")]
@@ -84,8 +84,7 @@ namespace PL.Controllers
             {
                 commentDto.CommentedOn=DateTime.Now;
                 var checkAuth = _httpContext.User.Identity.IsAuthenticated;
-                var userEmail = _httpContext.User.FindFirst(ClaimTypes.Name).Value;
-                var user = await _userService.GetUserByEmail(userEmail);
+                var user = await _userService.GetUserById(commentDto.PersonId);
                 commentDto.PersonId = user.Id;
                 await _commentService.AddAsync(commentDto);
                 return CreatedAtAction(nameof(Add), new {id = commentDto.Id}, commentDto);

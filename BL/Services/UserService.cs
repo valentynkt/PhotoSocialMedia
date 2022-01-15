@@ -28,7 +28,8 @@ namespace BL.Services
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageService _imageService;
-        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager,IUnitOfWork unitOfWork,IImageService imageService)
+        private readonly ICommentService _commentService;
+        public UserService(IMapper mapper, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IOptionsSnapshot<JwtSettings> jwtSettings, SignInManager<AppUser> signInManager,IUnitOfWork unitOfWork,IImageService imageService,ICommentService commentService)
         {
             _mapper = mapper;
             _userManager = userManager;
@@ -37,6 +38,7 @@ namespace BL.Services
             _jwtSettings = jwtSettings.Value;
             _unitOfWork = unitOfWork;
             _imageService = imageService;
+            _commentService = commentService;
         }
 
         public async Task<bool> SignUp(UserDTO userDto)
@@ -111,6 +113,12 @@ namespace BL.Services
             foreach (var image in images)
             {
                 await _imageService.DeleteByIdAsync(image.Id);
+            }
+
+            var comments = await _commentService.GetAllUsersCommentsAsync(user.Id);
+            foreach (var comment in comments)
+            {
+                await _imageService.DeleteByIdAsync(comment.Id);
             }
             await _userManager.DeleteAsync(user);
         }

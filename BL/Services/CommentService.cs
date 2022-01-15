@@ -17,11 +17,13 @@ namespace BL.Services
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly UserService _userService;
 
-        public CommentService(IUnitOfWork unitOfWork, IMapper mapper)
+        public CommentService(IUnitOfWork unitOfWork, IMapper mapper,UserService userService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<IEnumerable<CommentDTO>> GetAllAsync()
@@ -30,7 +32,25 @@ namespace BL.Services
             var commentsModel = _mapper.Map<IEnumerable<CommentDTO>>(comments);
             return commentsModel;
         }
-
+        public async Task<IEnumerable<CommentsDisplayDTO>> GetAllWithDetailsAsync()
+        {
+            var comments = await _unitOfWork.CommentRepository.GetAllAsync();
+            var commentsModel = _mapper.Map<IEnumerable<CommentDTO>>(comments);
+            var commentsDisplay = new List<CommentsDisplayDTO>();
+            foreach (var comment in commentsModel)
+            {
+                var user = await _userService.GetUserById(comment.PersonId);
+                var commentDto = new CommentsDisplayDTO(comment, user);
+                commentsDisplay.Add(commentDto);
+            }
+            return commentsDisplay;
+        }
+        public async Task<IEnumerable<CommentDTO>> GetAllUsersCommentsAsync(int id)
+        {
+            var comments = await _unitOfWork.CommentRepository.FindByConditionAsync(x => x.PersonId == id);
+            var commentsModel = _mapper.Map<IEnumerable<CommentDTO>>(comments);
+            return commentsModel;
+        }
         public async Task<CommentDTO> GetByIdAsync(int id)
         {
             var commentById = await _unitOfWork.CommentRepository.GetByIdAsync(id);
@@ -45,7 +65,7 @@ namespace BL.Services
 
         public async Task AddAsync(CommentDTO entity)
         {
-            if (entity.PersonId is null || entity.ImageId is null || entity.CommentedOn == default || entity.CommentedOn > DateTime.Now)
+            if (entity.PersonId == default || entity.ImageId == default || entity.CommentedOn == default || entity.CommentedOn > DateTime.Now)
             {
                 throw new PhotoAlbumException("Wrong comment data");
             }

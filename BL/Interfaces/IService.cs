@@ -9,7 +9,6 @@ namespace BL.Interfaces
     public interface IService<TEntity> where TEntity : class
     {
         Task<IEnumerable<TEntity>> GetAllAsync();
-
         Task<TEntity> GetByIdAsync(int id);
 
         Task AddAsync(TEntity entity);

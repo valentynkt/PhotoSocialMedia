@@ -8,10 +8,10 @@ namespace BL.DTO
     {
         public int Id { get; set; }
 
-        public int? ImageId { get; set; }
-        public int? PersonId { get; set; }
+        public int ImageId { get; set; }
+        public int PersonId { get; set; }
         public string Text { get; set; }
-        public int? Rating { get; set; }
+        public int Rating { get; set; }
         public DateTime CommentedOn { get; set; }
     }
 }

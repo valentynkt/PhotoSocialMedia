@@ -18,29 +18,37 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 const PhotoDetails = () => {
-
   const { id } = useParams();
-
+  const [error, setError] = useState("");
   const [photo, setPhoto] = useState({
     image: null,
     user: null,
   });
+  const [comments, setComments] = useState(null);
   let user = JSON.parse(localStorage.getItem("user"));
-  const [comment,setComment] = useState({
+  const [comment, setComment] = useState({
     text: "",
     rating: 1,
   });
   const handleChangeFunc = (event) => {
-    const { name, value } = event.target
-  
+    const { name, value } = event.target;
+
     setComment((prevValue) => ({
-        ...prevValue,
-        [name]: value,
-    }))
-  }
-  const handleComment = (e)=>{
+      ...prevValue,
+      [name]: value,
+    }));
+  };
+  const handleComment = async (e) => {
     e.preventDefault();
-  }
+    const data = {
+      ImageId: parseInt(photo.image.id),
+      PersonId: parseInt(user.id),
+      Text: comment.text,
+      Rating: parseInt(comment.rating),
+    };
+    await axios.post("/Comments/", data);
+    window.location.reload();
+  };
   const navigate = useNavigate();
   const userDetailsFunc = (id) => {
     let path = user
@@ -56,10 +64,9 @@ const PhotoDetails = () => {
       axios.get(`Images/${id}`).then((res) => {
         axios
           .get(`User/${res.data.personId}`)
-          .then((result) =>
-            setPhoto((prevValue) => ({ image: res.data, user: result.data }))
-          );
+          .then((result) => setPhoto({ image: res.data, user: result.data }));
       });
+      axios.get("Comments").then((res) => setComments(res.data));
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +80,7 @@ const PhotoDetails = () => {
         />
         <CardMedia
           component="img"
-          height="200"
+          maxheight="500px"
           image={`data:image/png;base64,${photo.image.imageData}`}
           alt={photo.image.imageTitle}
         />
@@ -99,100 +106,99 @@ const PhotoDetails = () => {
         <List
           sx={{ width: "100%", maxWidth: "500px", bgcolor: "background.paper" }}
         >
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Brunch this weekend?"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Ali Connors
-                  </Typography>
-                  {" — I'll be in your neighborhood doing errands this…"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Summer BBQ"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    to Scott, Alex, Jennifer
-                  </Typography>
-                  {" — Wish I could come, but I'm out of town this…"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-            </ListItemAvatar>
-            <ListItemText
-              primary="Oui Oui"
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    sx={{ display: "inline" }}
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Sandra Adams
-                  </Typography>
-                  {" — Do you have Paris recommendations? Have you ever…"}
-                </React.Fragment>
-              }
-            />
-          </ListItem>
+          {comments.map((elem) => (
+            <>
+              <ListItem alignItems="flex-start" key={elem.id}>
+                <ListItemText
+                  primary={
+                    <React.Fragment>
+                      <span
+                        style={{ cursor: "pointer" }}
+                        onClick={() => userDetailsFunc(elem.personId)}
+                      >
+                        {elem.personFullName}
+                      </span>
+                      <p>{elem.commentedOn}</p>
+                    </React.Fragment>
+                  }
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: "inline" }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        <span>{elem.text}</span>
+                        
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+                <span>{elem.rating}&#9733;</span>
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </>
+          ))}
         </List>
         <form className="yourComment" onSubmit={handleComment}>
           <div className="rating">
-            <input type="radio" name="rating" value="5" id="5" />
-            <label for="5">☆</label>{" "}
-            <input type="radio" name="rating" value="4" id="4" onChange={handleChangeFunc}/>
-            <label for="4">☆</label>{" "}
-            <input type="radio" name="rating" value="3" id="3" onChange={handleChangeFunc}/>
-            <label for="3">☆</label>{" "}
-            <input type="radio" name="rating" value="2" id="2" onChange={handleChangeFunc}/>
-            <label for="2">☆</label>{" "}
-            <input type="radio" name="rating" value="1" id="1" onChange={handleChangeFunc}/>
-            <label for="1">☆</label>{" "}
+            <input
+              type="radio"
+              name="rating"
+              value="5"
+              id="5"
+              onChange={handleChangeFunc}
+            />
+            <label htmlFor="5">☆</label>
+            <input
+              type="radio"
+              name="rating"
+              value="4"
+              id="4"
+              onChange={handleChangeFunc}
+            />
+            <label htmlFor="4">☆</label>
+            <input
+              type="radio"
+              name="rating"
+              value="3"
+              id="3"
+              onChange={handleChangeFunc}
+            />
+            <label htmlFor="3">☆</label>
+            <input
+              type="radio"
+              name="rating"
+              value="2"
+              id="2"
+              onChange={handleChangeFunc}
+            />
+            <label htmlFor="2">☆</label>
+            <input
+              type="radio"
+              name="rating"
+              value="1"
+              id="1"
+              onChange={handleChangeFunc}
+            />
+            <label htmlFor="1">☆</label>
           </div>
           <div className="d-flex flex-row add-comment-section mt-4 mb-4">
-          <input
-            type="text"
-            className="form-control mr-3"
-            placeholder="Add comment"
-            name="text"
-            onChange={handleChangeFunc}
-            required minLength="6"
-          />
-          <button className="btn btn-primary" type="submit">
-            Comment
-          </button>
-        </div>
+            <input
+              type="text"
+              className="form-control mr-3"
+              placeholder="Add comment"
+              name="text"
+              onChange={handleChangeFunc}
+              required
+              minLength="6"
+            />
+            <button className="btn btn-primary" type="submit">
+              Comment
+            </button>
+          </div>
         </form>
-      
       </Card>
     );
   } else

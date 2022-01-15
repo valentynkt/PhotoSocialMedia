@@ -137,6 +137,7 @@ justify-content: center;
 .yourComment{
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
 }
 .rating{
   align-self: center;
