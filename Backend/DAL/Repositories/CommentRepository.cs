@@ -25,7 +25,10 @@ namespace DAL.Repositories
 
         public void Delete(Comment entity)
         {
-            _context.Comments.Update(entity);
+            if (entity != null)
+            {
+                _context.Comments.Remove(entity);
+            }
         }
 
         public async Task DeleteByIdAsync(int id)
