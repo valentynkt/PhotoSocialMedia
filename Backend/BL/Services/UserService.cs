@@ -115,7 +115,7 @@ namespace BL.Services
                 await _imageService.DeleteByIdAsync(image.Id);
             }
 
-            var comments = await _commentService.GetAllUsersCommentsAsync(user.Id);
+            var comments = await GetUserComments(user.Email);
             foreach (var comment in comments)
             {
                 await _imageService.DeleteByIdAsync(comment.Id);
@@ -244,6 +244,33 @@ namespace BL.Services
             var comments = await _unitOfWork.CommentRepository.FindByConditionAsync(x=> x.PersonId==user.Id);
             var userCommentsDTO = _mapper.Map<IEnumerable<CommentDTO>>(comments);
             return userCommentsDTO;
+        }
+
+        public async Task<IEnumerable<CommentsDisplayDTO>> GetAllCommentsWithUser()
+        {
+            var comments = await _unitOfWork.CommentRepository.GetAllAsync();
+            var commentsModel = _mapper.Map<IEnumerable<CommentDTO>>(comments);
+            var commentsDisplay = new List<CommentsDisplayDTO>();
+            foreach (var comment in commentsModel)
+            {
+                var user = await GetUserById(comment.PersonId);
+                var commentDto = new CommentsDisplayDTO(comment, user);
+                commentsDisplay.Add(commentDto);
+            }
+            return commentsDisplay;
+        }
+              public async Task<IEnumerable<CommentsDisplayDTO>> GetAllCommentsByImageWithUserAsync(int id)
+        {
+            var comments = await _unitOfWork.CommentRepository.FindByConditionAsync(x=>x.ImageId==id);
+            var commentsModel = _mapper.Map<IEnumerable<CommentDTO>>(comments);
+            var commentsDisplay = new List<CommentsDisplayDTO>();
+            foreach (var comment in commentsModel)
+            {
+                var user = await GetUserById(comment.PersonId);
+                var commentDto = new CommentsDisplayDTO(comment, user);
+                commentsDisplay.Add(commentDto);
+            }
+            return commentsDisplay;
         }
         public string GenerateJwt(AppUser user, IList<string> roles)
         {

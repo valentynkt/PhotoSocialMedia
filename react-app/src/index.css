@@ -142,6 +142,11 @@ justify-content: center;
 .rating{
   align-self: center;
 }
+#PhotoDetailsCard{
+  max-width: 1000px;
+  align-self: center;
+  justify-self: center;
+}
 /* .profile-userbuttons{
 display: flex;
 justify-content: space-around;

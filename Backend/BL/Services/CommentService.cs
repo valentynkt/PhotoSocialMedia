@@ -8,7 +8,9 @@ using BL.DTO;
 using BL.Exceptions;
 using BL.Interfaces;
 using DAL.Entities;
+using DAL.Entities.Auth;
 using DAL.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace BL.Services
 {
@@ -17,13 +19,11 @@ namespace BL.Services
 
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly UserService _userService;
 
-        public CommentService(IUnitOfWork unitOfWork, IMapper mapper,UserService userService)
+        public CommentService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _userService = userService;
         }
 
         public async Task<IEnumerable<CommentDTO>> GetAllAsync()
@@ -32,9 +32,22 @@ namespace BL.Services
             var commentsModel = _mapper.Map<IEnumerable<CommentDTO>>(comments);
             return commentsModel;
         }
-        public async Task<IEnumerable<CommentsDisplayDTO>> GetAllWithDetailsAsync()
+/*        public async Task<IEnumerable<CommentsDisplayDTO>> GetAllWithDetailsAsync()
         {
             var comments = await _unitOfWork.CommentRepository.GetAllAsync();
+            var commentsModel = _mapper.Map<IEnumerable<CommentDTO>>(comments);
+            var commentsDisplay = new List<CommentsDisplayDTO>();
+            foreach (var comment in commentsModel)
+            {
+                var user = await _userService. (comment.PersonId);
+                var commentDto = new CommentsDisplayDTO(comment, user);
+                commentsDisplay.Add(commentDto);
+            }
+            return commentsDisplay;
+        }*/
+/*        public async Task<IEnumerable<CommentsDisplayDTO>> GetAllByImageAsync(int id)
+        {
+            var comments = await _unitOfWork.CommentRepository.FindByConditionAsync(x=>x.ImageId==id);
             var commentsModel = _mapper.Map<IEnumerable<CommentDTO>>(comments);
             var commentsDisplay = new List<CommentsDisplayDTO>();
             foreach (var comment in commentsModel)
@@ -44,13 +57,7 @@ namespace BL.Services
                 commentsDisplay.Add(commentDto);
             }
             return commentsDisplay;
-        }
-        public async Task<IEnumerable<CommentDTO>> GetAllUsersCommentsAsync(int id)
-        {
-            var comments = await _unitOfWork.CommentRepository.FindByConditionAsync(x => x.PersonId == id);
-            var commentsModel = _mapper.Map<IEnumerable<CommentDTO>>(comments);
-            return commentsModel;
-        }
+        }*/
         public async Task<CommentDTO> GetByIdAsync(int id)
         {
             var commentById = await _unitOfWork.CommentRepository.GetByIdAsync(id);

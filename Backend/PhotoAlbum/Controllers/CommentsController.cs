@@ -29,9 +29,9 @@ namespace PL.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<CommentsDisplayDTO>> GetAll()
+        public async Task<IEnumerable<CommentDTO>> GetAll()
         {
-            return await _commentService.GetAllWithDetailsAsync();
+            return await _commentService.GetAllAsync();
         }
 
         [HttpGet("{id}")]
@@ -39,7 +39,11 @@ namespace PL.Controllers
         {
             return await _commentService.GetByIdAsync(id);
         }
-
+/*        [HttpGet("byimage/{id}")]
+        public async Task<IEnumerable<CommentsDisplayDTO>> GetAllByImage(int id)
+        {
+            return await _commentService.GetAllByImageAsync(id);
+        }*/
         [HttpPut]
         public async Task<IActionResult> Update(CommentDTO commentDto)
         {

@@ -9,7 +9,5 @@ namespace BL.Interfaces
 {
     public interface ICommentService : IService<CommentDTO>
     {
-        Task<IEnumerable<CommentsDisplayDTO>> GetAllWithDetailsAsync();
-        Task<IEnumerable<CommentDTO>> GetAllUsersCommentsAsync(int id);
     }
 }

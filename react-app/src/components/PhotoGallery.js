@@ -66,8 +66,11 @@ const PhotoGallery = (props) => {
   }, []);
 
   if (loading) return <CircularProgress size={120} />;
-  else
-    return (
+  else if(photos.length<1){
+   return(<h1>No photos</h1>) 
+  }
+
+   else return (
       <div>
         <InputPhotos change={handleChange} submit={handleSubmit} />
         <ImageList rowHeight={350} cols={2}>

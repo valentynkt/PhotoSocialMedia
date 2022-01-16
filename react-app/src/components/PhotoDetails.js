@@ -63,24 +63,35 @@ const PhotoDetails = () => {
           .get(`User/${res.data.personId}`)
           .then((result) => setPhoto({ image: res.data, user: result.data }));
       });
-      axios.get("Comments").then((res) => setComments(res.data));
+      axios.get(`User/comments/imageid/${id}`).then((res) => setComments(res.data));
     } catch (error) {
       console.log(error);
     }
   }, [id]);
   if (photo.image && photo.user) {
     return (
-      <Card>
+      <Card id="PhotoDetailsCard">
         <CardHeader
           title={photo.image.imageTitle}
           subheader="September 14, 2016"
         />
-        <CardMedia
-          component="img"
-          maxheight="500px"
-          image={`data:image/png;base64,${photo.image.imageData}`}
-          alt={photo.image.imageTitle}
-        />
+        <div
+          style={{
+            display: "flex",
+            alignItem: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CardMedia
+            component="img"
+            style={{
+              width: "auto",
+              maxHeight: "1000px"
+            }}
+            image={`data:image/png;base64,${photo.image.imageData}`}
+            alt={photo.image.imageTitle}
+          />
+        </div>
         <CardContent>
           <Typography
             variant="body1"
@@ -101,7 +112,7 @@ const PhotoDetails = () => {
         </CardContent>
 
         <List
-          sx={{ width: "100%", maxWidth: "500px", bgcolor: "background.paper" }}
+          sx={{ width: "100%", bgcolor: "background.paper" }}
         >
           {comments.map((elem) => (
             <>
@@ -127,7 +138,6 @@ const PhotoDetails = () => {
                         color="text.primary"
                       >
                         <span>{elem.text}</span>
-                        
                       </Typography>
                     </React.Fragment>
                   }

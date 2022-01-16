@@ -197,12 +197,24 @@ namespace PL.Controllers
                 return null;
             }
         }
-        [HttpGet("comments")]
+/*        [HttpGet("comments")]
         public async Task<IEnumerable<CommentDTO>> GetUserComments([FromBody] string email)
         {
             try
             {
                 return await _userService.GetUserComments(email);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }*/
+        [HttpGet("comments/imageid/{id}")]
+        public async Task<IEnumerable<CommentsDisplayDTO>> GetAllCommentsByImageWithUserAsync(int id)
+        {
+            try
+            {
+                return await _userService.GetAllCommentsByImageWithUserAsync(id);
             }
             catch (Exception)
             {
